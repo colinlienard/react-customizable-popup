@@ -24,6 +24,7 @@
 .popup {
   z-index: 9999;
   position: absolute;
+  background-color: white;
   opacity: 0;
   pointer-events: none;
   transition: opacity .3s ease-in-out;

@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import './Popup.css';
+import './index.css';
 
 export type Props = {
   children: ReactNode,
