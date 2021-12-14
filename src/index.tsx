@@ -1,7 +1,10 @@
 import React, {
+  cloneElement,
   FC,
   ReactElement,
   ReactNode,
+  useEffect,
+  useRef,
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
@@ -9,12 +12,28 @@ import './Popup.css';
 
 export type Props = {
   children: ReactNode,
-  toggler: ReactElement | FC
+  toggler: ReactElement
 }
 
 const Popup: FC<Props> = ({ children, toggler }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [position, setPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [root, setRoot] = useState<string>('#root');
+  const popupRef = useRef<HTMLDivElement>(null);
+  const togglerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (popupRef.current && togglerRef.current) {
+      const x = togglerRef.current.offsetLeft
+        + togglerRef.current.offsetWidth / 2
+        - popupRef.current.offsetWidth / 2;
+      const y = togglerRef.current.offsetTop + togglerRef.current.offsetHeight;
+      setPosition({
+        x,
+        y,
+      });
+    }
+  }, []);
 
   // eslint-disable-next-line no-unused-vars
   const app = (newRoot: string) => {
@@ -27,18 +46,20 @@ const Popup: FC<Props> = ({ children, toggler }) => {
 
   return (
     <>
-      <span
-        className="toggler-wrapper"
-        onClick={togglePopup}
-        onKeyPress={togglePopup}
-        role="button"
-        tabIndex={0}
-      >
-        {toggler}
-      </span>
+      {cloneElement(toggler, {
+        onClick: togglePopup,
+        ref: togglerRef,
+      })}
       {createPortal(
         <>
-          <div className={`popup ${open && 'open'}`}>
+          <div
+            className={`popup ${open && 'open'}`}
+            ref={popupRef}
+            style={{
+              top: position.y,
+              left: position.x,
+            }}
+          >
             {children}
           </div>
           <div
