@@ -4,15 +4,22 @@ import React, {
   ReactNode,
   useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 import './Popup.css';
 
 export type Props = {
   children: ReactNode,
-  toggler: ReactElement
+  toggler: ReactElement | FC
 }
 
 const Popup: FC<Props> = ({ children, toggler }) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [root, setRoot] = useState<string>('#root');
+
+  // eslint-disable-next-line no-unused-vars
+  const app = (newRoot: string) => {
+    setRoot(newRoot);
+  };
 
   const togglePopup = () => {
     setOpen((state) => !state);
@@ -28,10 +35,11 @@ const Popup: FC<Props> = ({ children, toggler }) => {
       >
         {toggler}
       </span>
-      {open && (
-        <div>
+      {createPortal(
+        <div className={open ? 'open' : ''}>
           {children}
-        </div>
+        </div>,
+        document.querySelector(root) as Element,
       )}
     </>
   );
