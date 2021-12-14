@@ -12,10 +12,14 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<Props> = (args) => (
-  <Popup {...args} />
+  <Popup
+    {...args}
+    toggler={
+      <button type="button">Toggler</button>
+    }
+  >
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, magnam?</p>
+  </Popup>
 );
 
 export const Default = Template.bind({});
-Default.args = {
-  initial: 1,
-};

@@ -1,20 +1,39 @@
-import React, { FC, useState } from 'react';
+import React, {
+  FC,
+  ReactElement,
+  ReactNode,
+  useState,
+} from 'react';
 import './Popup.css';
 
 export type Props = {
-  initial: number
+  children: ReactNode,
+  toggler: ReactElement
 }
 
-const Popup: FC<Props> = ({ initial }) => {
-  const [count, setCount] = useState<number>(initial);
+const Popup: FC<Props> = ({ children, toggler }) => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const togglePopup = () => {
+    setOpen((state) => !state);
+  };
 
   return (
-    <button
-      type="button"
-      onClick={() => setCount((state) => state + 1)}
-    >
-      {count}
-    </button>
+    <>
+      <span
+        onClick={togglePopup}
+        onKeyPress={togglePopup}
+        role="button"
+        tabIndex={0}
+      >
+        {toggler}
+      </span>
+      {open && (
+        <div>
+          {children}
+        </div>
+      )}
+    </>
   );
 };
 
