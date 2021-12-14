@@ -20,13 +20,15 @@
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.16.5",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@rollup/plugin-typescript": "^8.3.0",
     "@storybook/addon-actions": "^6.4.9",
     "@storybook/addon-essentials": "^6.4.9",
     "@storybook/addon-links": "^6.4.9",
+    "@storybook/builder-webpack5": "^6.5.0-alpha.3",
+    "@storybook/manager-webpack5": "^6.5.0-alpha.3",
     "@storybook/react": "^6.4.9",
     "@types/node": "^16.11.12",
     "@types/react": "^17.0.37",
@@ -49,7 +51,9 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
-    "typescript": "^4.5.3"
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.3",
+    "webpack": "5"
   },
   "peerDependencies": {
     "react": "^17.0.2",
