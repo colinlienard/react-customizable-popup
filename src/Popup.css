@@ -1,3 +1,35 @@
-.open {
-  background-color: red;
+.toggler-wrapper {
+  width: fit-content;
+  height: fit-content;
+}
+
+.popup-background {
+  z-index: 9998;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease-in-out;
+}
+
+.popup-background.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.popup {
+  z-index: 9999;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease-in-out;
+}
+
+.popup.open {
+  opacity: 1;
+  pointer-events: all;
 }

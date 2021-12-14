@@ -28,6 +28,7 @@ const Popup: FC<Props> = ({ children, toggler }) => {
   return (
     <>
       <span
+        className="toggler-wrapper"
         onClick={togglePopup}
         onKeyPress={togglePopup}
         role="button"
@@ -36,9 +37,17 @@ const Popup: FC<Props> = ({ children, toggler }) => {
         {toggler}
       </span>
       {createPortal(
-        <div className={open ? 'open' : ''}>
-          {children}
-        </div>,
+        <>
+          <div className={`popup ${open && 'open'}`}>
+            {children}
+          </div>
+          <div
+            className={`popup-background ${open && 'active'}`}
+            onClick={togglePopup}
+            role="button"
+            aria-hidden="true"
+          />
+        </>,
         document.querySelector(root) as Element,
       )}
     </>
