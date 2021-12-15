@@ -49,6 +49,10 @@ const Popup: FC<Props> = ({ children, toggler }) => {
   useEffect(() => {
     getPosition();
 
+    window.addEventListener('resize', () => {
+      getPosition();
+    });
+
     document.querySelectorAll('[data-close]').forEach((closeElement) => {
       closeElement.addEventListener('click', () => setOpen(false));
     });
