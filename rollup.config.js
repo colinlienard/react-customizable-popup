@@ -30,6 +30,8 @@ export default [
       commonjs(),
       typescript({
         tsconfig: './tsconfig.json',
+        filterRoot: './src',
+        exclude: './__stories__',
       }),
       postcss(),
       terser(),
@@ -42,6 +44,6 @@ export default [
       format: 'esm',
     }],
     plugins: [dts()],
-    external: [/\.css$/],
+    external: [/\.scss$/],
   },
 ];

@@ -2,7 +2,7 @@ import React from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Meta, Story } from '@storybook/react';
 import Popup, { Props } from '../src';
-import '../src/index.css';
+import '../src/index.scss';
 
 const meta: Meta = {
   title: 'Popup',

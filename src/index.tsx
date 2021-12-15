@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 import useBlockScroll from './hooks/useBlockScroll';
-import './index.css';
+import './index.scss';
 
 const distanceFromEdge = 0;
 
