@@ -15,11 +15,11 @@ const Template: Story<Props> = (args) => (
   <Popup
     {...args}
     toggler={
-      <button type="button" style={{ marginLeft: '50%' }}>Toggler</button>
+      <button type="button">Toggler</button>
     }
   >
     <button type="button" data-close>Close</button>
-    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, magnam?</p>
+    <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, magnam?</div>
   </Popup>
 );
 

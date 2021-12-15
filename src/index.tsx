@@ -11,6 +11,8 @@ import { createPortal } from 'react-dom';
 import useBlockScroll from './hooks/useBlockScroll';
 import './index.css';
 
+const distanceFromEdge = 0;
+
 export type Props = {
   children: ReactNode,
   toggler: ReactElement
@@ -28,9 +30,14 @@ const Popup: FC<Props> = ({ children, toggler }) => {
 
   const getPosition = () => {
     if (popupRef.current && togglerRef.current) {
-      const x = togglerRef.current.offsetLeft
+      let x = togglerRef.current.offsetLeft
         + togglerRef.current.offsetWidth / 2
         - popupRef.current.offsetWidth / 2;
+      if (x < distanceFromEdge) {
+        x = distanceFromEdge;
+      } else if (x + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdge) {
+        x -= x + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdge);
+      }
       const y = togglerRef.current.offsetTop + togglerRef.current.offsetHeight;
       setPosition({
         x,
