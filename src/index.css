@@ -25,6 +25,7 @@
   z-index: 9999;
   position: absolute;
   background-color: white;
+  overflow-y: auto;
   opacity: 0;
   pointer-events: none;
   transition: opacity .3s ease-in-out;
