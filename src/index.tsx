@@ -22,7 +22,7 @@ const Popup: FC<Props> = ({ children, toggler }) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const togglerRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
+  const getPosition = () => {
     if (popupRef.current && togglerRef.current) {
       const x = togglerRef.current.offsetLeft
         + togglerRef.current.offsetWidth / 2
@@ -33,6 +33,14 @@ const Popup: FC<Props> = ({ children, toggler }) => {
         y,
       });
     }
+  };
+
+  useEffect(() => {
+    getPosition();
+
+    document.querySelectorAll('[data-close]').forEach((closeElement) => {
+      closeElement.addEventListener('click', () => setOpen(false));
+    });
   }, []);
 
   // eslint-disable-next-line no-unused-vars
@@ -40,9 +48,7 @@ const Popup: FC<Props> = ({ children, toggler }) => {
     setRoot(newRoot);
   };
 
-  const togglePopup = () => {
-    setOpen((state) => !state);
-  };
+  const togglePopup = () => setOpen((state) => !state);
 
   return (
     <>

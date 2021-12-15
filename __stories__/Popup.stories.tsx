@@ -18,6 +18,9 @@ const Template: Story<Props> = (args) => (
       <button type="button" style={{ marginLeft: '50%' }}>Toggler</button>
     }
   >
+    <div>
+      <button type="button" data-close>Close</button>
+    </div>
     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, magnam?</p>
   </Popup>
 );
