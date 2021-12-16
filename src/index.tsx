@@ -16,12 +16,20 @@ const distanceFromToggler = 12;
 
 export type Props = {
   children: ReactNode,
-  toggler: ReactElement
+  toggler: ReactElement,
+  position?: [
+    'center' | 'left' | 'midleft' | 'right' | 'midright',
+    'center' | 'top' | 'midtop' | 'bottom' | 'midbottom',
+  ],
 }
 
-const Popup: FC<Props> = ({ children, toggler }) => {
+const Popup: FC<Props> = ({
+  children,
+  toggler,
+  position,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [position, setPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+  const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [root, setRoot] = useState<string>('#root');
 
   useDisableScroll(open);
@@ -34,16 +42,83 @@ const Popup: FC<Props> = ({ children, toggler }) => {
       let x = togglerRef.current.offsetLeft
         + togglerRef.current.offsetWidth / 2
         - popupRef.current.offsetWidth / 2;
+
+      let y = togglerRef.current.offsetTop
+        + togglerRef.current.offsetHeight
+        + distanceFromToggler;
+
+      if (position) {
+        switch (position[0]) {
+          case 'center': {
+            break;
+          }
+          case 'left': {
+            x = togglerRef.current.offsetLeft
+              - popupRef.current.offsetWidth
+              - distanceFromToggler;
+            break;
+          }
+          case 'midleft': {
+            x = togglerRef.current.offsetLeft
+              + togglerRef.current.offsetWidth
+              - popupRef.current.offsetWidth;
+            break;
+          }
+          case 'right': {
+            x = togglerRef.current.offsetLeft
+              + togglerRef.current.offsetWidth
+              + distanceFromToggler;
+            break;
+          }
+          case 'midright': {
+            x = togglerRef.current.offsetLeft;
+            break;
+          }
+          default: {
+            throw new Error('Position on the horizontal axis : wrong value provided.');
+          }
+        }
+
+        switch (position[1]) {
+          case 'center': {
+            y = togglerRef.current.offsetTop
+              + togglerRef.current.offsetHeight / 2
+              - popupRef.current.offsetHeight / 2;
+            break;
+          }
+          case 'top': {
+            y = togglerRef.current.offsetTop
+              - popupRef.current.offsetHeight
+              - distanceFromToggler;
+            break;
+          }
+          case 'midtop': {
+            y = togglerRef.current.offsetTop
+              + togglerRef.current.offsetHeight
+              - popupRef.current.offsetHeight;
+            break;
+          }
+          case 'bottom': {
+            break;
+          }
+          case 'midbottom': {
+            y = togglerRef.current.offsetTop;
+            break;
+          }
+          default: {
+            throw new Error('Position on the vertical axis : wrong value provided.');
+          }
+        }
+      }
+
+      /* Handle popup not going beyond edges of the screen */
       if (x < distanceFromEdge) {
         x = distanceFromEdge;
       } else if (x + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdge) {
         x -= x + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdge);
       }
-      const y = togglerRef.current.offsetTop
-        + togglerRef.current.offsetHeight
-        + distanceFromToggler;
 
-      setPosition({ x, y });
+      setPos({ x, y });
     }
   };
 
@@ -59,7 +134,7 @@ const Popup: FC<Props> = ({ children, toggler }) => {
     });
   }, []);
 
-  // eslint-disable-next-line no-unused-vars
+  /* eslint-disable-next-line no-unused-vars */
   const app = (newRoot: string) => {
     setRoot(newRoot);
   };
@@ -78,8 +153,8 @@ const Popup: FC<Props> = ({ children, toggler }) => {
             className={`cpopup default ${open && 'open'}`}
             ref={popupRef}
             style={{
-              top: position.y,
-              left: position.x,
+              top: pos.y,
+              left: pos.x,
             }}
           >
             {children}
