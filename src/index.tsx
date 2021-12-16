@@ -12,6 +12,7 @@ import useDisableScroll from './hooks/useDisableScroll';
 import './index.scss';
 
 const distanceFromEdge = 0;
+const distanceFromToggler = 12;
 
 export type Props = {
   children: ReactNode,
@@ -38,11 +39,11 @@ const Popup: FC<Props> = ({ children, toggler }) => {
       } else if (x + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdge) {
         x -= x + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdge);
       }
-      const y = togglerRef.current.offsetTop + togglerRef.current.offsetHeight;
-      setPosition({
-        x,
-        y,
-      });
+      const y = togglerRef.current.offsetTop
+        + togglerRef.current.offsetHeight
+        + distanceFromToggler;
+
+      setPosition({ x, y });
     }
   };
 
@@ -74,7 +75,7 @@ const Popup: FC<Props> = ({ children, toggler }) => {
       {createPortal(
         <>
           <div
-            className={`popup ${open && 'open'}`}
+            className={`cpopup default ${open && 'open'}`}
             ref={popupRef}
             style={{
               top: position.y,
@@ -84,7 +85,7 @@ const Popup: FC<Props> = ({ children, toggler }) => {
             {children}
           </div>
           <div
-            className={`popup-background ${open && 'active'}`}
+            className={`cpopup-background default ${open && 'active'}`}
             onClick={togglePopup}
             role="button"
             aria-hidden="true"
