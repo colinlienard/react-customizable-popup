@@ -8,7 +8,7 @@ import React, {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import useBlockScroll from './hooks/useBlockScroll';
+import useDisableScroll from './hooks/useDisableScroll';
 import './index.scss';
 
 const distanceFromEdge = 0;
@@ -23,7 +23,7 @@ const Popup: FC<Props> = ({ children, toggler }) => {
   const [position, setPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [root, setRoot] = useState<string>('#root');
 
-  useBlockScroll(open);
+  useDisableScroll(open);
 
   const popupRef = useRef<HTMLDivElement>(null);
   const togglerRef = useRef<HTMLElement>(null);
