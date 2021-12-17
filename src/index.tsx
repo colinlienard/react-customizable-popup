@@ -25,6 +25,7 @@ export type Props = {
   distanceFromToggler?: number,
   fixed?: boolean,
   arrow?: boolean,
+  arrowSize?: number,
   root?: string,
 }
 
@@ -39,10 +40,12 @@ const Popup: FC<Props> = ({
   distanceFromToggler = 12,
   fixed = false,
   arrow = true,
+  arrowSize = 12,
   root = '#root',
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+  const [arrowPos, setArrowPos] = useState<{ top: string, left: string }>({ top: '', left: '' });
 
   if (disableScroll && !fixed) {
     useDisableScroll(open);
@@ -55,34 +58,41 @@ const Popup: FC<Props> = ({
     if (popupRef.current && togglerRef.current) {
       let x = 0;
       let y = 0;
+      let top = '';
+      let left = '';
 
       switch (position[0]) {
         case 'center': {
           x = togglerRef.current.offsetLeft
             + togglerRef.current.offsetWidth / 2
             - popupRef.current.offsetWidth / 2;
+          left = '50%';
           break;
         }
         case 'left': {
           x = togglerRef.current.offsetLeft
             - popupRef.current.offsetWidth
             - distanceFromToggler;
+          left = '100%';
           break;
         }
         case 'midleft': {
           x = togglerRef.current.offsetLeft
             + togglerRef.current.offsetWidth
             - popupRef.current.offsetWidth;
+          left = `${popupRef.current.offsetWidth - arrowSize * 2}px`;
           break;
         }
         case 'right': {
           x = togglerRef.current.offsetLeft
             + togglerRef.current.offsetWidth
             + distanceFromToggler;
+          left = `-${arrowSize + 1}px`;
           break;
         }
         case 'midright': {
           x = togglerRef.current.offsetLeft;
+          left = `${arrowSize * 2}px`;
           break;
         }
         default: {
@@ -95,28 +105,33 @@ const Popup: FC<Props> = ({
           y = togglerRef.current.offsetTop
             + togglerRef.current.offsetHeight / 2
             - popupRef.current.offsetHeight / 2;
+          top = '50%';
           break;
         }
         case 'top': {
           y = togglerRef.current.offsetTop
             - popupRef.current.offsetHeight
             - distanceFromToggler;
+          top = '100%';
           break;
         }
         case 'midtop': {
           y = togglerRef.current.offsetTop
             + togglerRef.current.offsetHeight
             - popupRef.current.offsetHeight;
+          top = `${popupRef.current.offsetHeight - arrowSize * 2}px`;
           break;
         }
         case 'bottom': {
           y = togglerRef.current.offsetTop
             + togglerRef.current.offsetHeight
             + distanceFromToggler;
+          top = `-${arrowSize + 1}px`;
           break;
         }
         case 'midbottom': {
           y = togglerRef.current.offsetTop;
+          top = `${arrowSize * 2}px`;
           break;
         }
         default: {
@@ -132,6 +147,7 @@ const Popup: FC<Props> = ({
       }
 
       setPos({ x, y });
+      setArrowPos({ top, left });
     }
   };
 
@@ -179,7 +195,14 @@ const Popup: FC<Props> = ({
             }}
           >
             {arrow && (
-              <div className={`cpopup-arrow ${'top'}`} />
+              <div
+                className={`cpopup-arrow ${position[0]} ${position[1]}`}
+                style={{
+                  ...arrowPos,
+                  width: `${arrowSize}px`,
+                  height: `${arrowSize}px`,
+                }}
+              />
             )}
             {children}
           </div>

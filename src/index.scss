@@ -31,16 +31,27 @@
 
 .cpopup-arrow {  
   position: absolute;
-  bottom: 100%;
-  left: 50%;
-  width: 12px;
-  height: 12px;
   clip-path: polygon(0 0, 100% 0, 100% 100%);
   background-color: inherit;
   border: inherit;
   border-bottom: none;
   border-left: none;
-  transform: translate(-50%, 50%) rotate(-45deg);
+
+  &.top {
+    transform: translate(-50%, -50%) rotate(135deg);
+  }
+
+  &.right {
+    transform: translate(50%, -50%) rotate(-135deg);
+  }
+
+  &.bottom {
+    transform: translate(-50%, 50%) rotate(-45deg);
+  }
+
+  &.left {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
 }
 
 .cpopup-background {
