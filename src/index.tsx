@@ -11,9 +11,6 @@ import { createPortal } from 'react-dom';
 import useDisableScroll from './hooks/useDisableScroll';
 import './index.scss';
 
-const distanceFromEdge = 0;
-const distanceFromToggler = 12;
-
 export type Props = {
   children: ReactNode,
   toggler: ReactElement,
@@ -24,6 +21,8 @@ export type Props = {
   toggleOn?: 'click' | 'hover',
   disableScroll?: boolean,
   className?: string,
+  distanceFromEdges?: number,
+  distanceFromToggler?: number,
 }
 
 const Popup: FC<Props> = ({
@@ -32,7 +31,9 @@ const Popup: FC<Props> = ({
   position = ['center', 'bottom'],
   toggleOn = 'click',
   disableScroll = true,
-  className = undefined,
+  className,
+  distanceFromEdges = 0,
+  distanceFromToggler = 12,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
@@ -119,10 +120,10 @@ const Popup: FC<Props> = ({
       }
 
       /* Handle popup not going beyond edges of the screen */
-      if (x < distanceFromEdge) {
-        x = distanceFromEdge;
-      } else if (x + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdge) {
-        x -= x + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdge);
+      if (x < distanceFromEdges) {
+        x = distanceFromEdges;
+      } else if (x + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdges) {
+        x -= x + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdges);
       }
 
       setPos({ x, y });
