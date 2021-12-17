@@ -23,6 +23,7 @@ export type Props = {
   className?: string,
   distanceFromEdges?: number,
   distanceFromToggler?: number,
+  fixed?: boolean,
 }
 
 const Popup: FC<Props> = ({
@@ -34,12 +35,13 @@ const Popup: FC<Props> = ({
   className,
   distanceFromEdges = 0,
   distanceFromToggler = 12,
+  fixed = false,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [root, setRoot] = useState<string>('#root');
 
-  if (disableScroll) {
+  if (disableScroll && !fixed) {
     useDisableScroll(open);
   }
 
@@ -171,7 +173,7 @@ const Popup: FC<Props> = ({
       {createPortal(
         <>
           <div
-            className={`cpopup ${className || 'default'} ${open && 'open'}`}
+            className={`cpopup ${className || 'default'} ${fixed && 'fixed'} ${open && 'open'}`}
             ref={popupRef}
             style={{
               top: pos.y,
