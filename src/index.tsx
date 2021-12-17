@@ -22,6 +22,7 @@ export type Props = {
     'center' | 'top' | 'midtop' | 'bottom' | 'midbottom',
   ],
   toggleOn?: 'click' | 'hover',
+  disableScroll?: boolean,
 }
 
 const Popup: FC<Props> = ({
@@ -29,12 +30,15 @@ const Popup: FC<Props> = ({
   toggler,
   position = ['center', 'bottom'],
   toggleOn = 'click',
+  disableScroll = true,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [root, setRoot] = useState<string>('#root');
 
-  useDisableScroll(open);
+  if (disableScroll) {
+    useDisableScroll(open);
+  }
 
   const popupRef = useRef<HTMLDivElement>(null);
   const togglerRef = useRef<HTMLElement>(null);
