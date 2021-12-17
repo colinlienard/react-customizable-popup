@@ -25,6 +25,7 @@ export type Props = {
   distanceFromToggler?: number,
   fixed?: boolean,
   arrow?: boolean,
+  root?: string,
 }
 
 const Popup: FC<Props> = ({
@@ -38,10 +39,10 @@ const Popup: FC<Props> = ({
   distanceFromToggler = 12,
   fixed = false,
   arrow = true,
+  root = '#root',
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
-  const [root, setRoot] = useState<string>('#root');
 
   if (disableScroll && !fixed) {
     useDisableScroll(open);
@@ -145,11 +146,6 @@ const Popup: FC<Props> = ({
       closeElement.addEventListener('click', () => setOpen(false));
     });
   }, []);
-
-  /* eslint-disable-next-line no-unused-vars */
-  const app = (newRoot: string) => {
-    setRoot(newRoot);
-  };
 
   const openPopup = () => setOpen(true);
 
