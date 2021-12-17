@@ -11,39 +11,143 @@ import { createPortal } from 'react-dom';
 import useDisableScroll from './hooks/useDisableScroll';
 import './index.scss';
 
-const distanceFromEdge = 0;
-const distanceFromToggler = 12;
-
 export type Props = {
   children: ReactNode,
-  toggler: ReactElement
+  toggler: ReactElement,
+  position?: [
+    'center' | 'left' | 'midleft' | 'right' | 'midright',
+    'center' | 'top' | 'midtop' | 'bottom' | 'midbottom',
+  ],
+  toggleOn?: 'click' | 'hover',
+  disableScroll?: boolean,
+  className?: string,
+  distanceFromEdges?: number,
+  distanceFromToggler?: number,
+  fixed?: boolean,
+  arrow?: boolean,
+  arrowSize?: number,
+  root?: string,
 }
 
-const Popup: FC<Props> = ({ children, toggler }) => {
+const Popup: FC<Props> = ({
+  children,
+  toggler,
+  position = ['center', 'bottom'],
+  toggleOn = 'click',
+  disableScroll = true,
+  className,
+  distanceFromEdges = 0,
+  distanceFromToggler = 12,
+  fixed = false,
+  arrow = true,
+  arrowSize = 12,
+  root = '#root',
+}) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [position, setPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
-  const [root, setRoot] = useState<string>('#root');
+  const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+  const [arrowPos, setArrowPos] = useState<{ top: string, left: string }>({ top: '', left: '' });
 
-  useDisableScroll(open);
+  if (disableScroll && !fixed) {
+    useDisableScroll(open);
+  }
 
   const popupRef = useRef<HTMLDivElement>(null);
   const togglerRef = useRef<HTMLElement>(null);
 
   const getPosition = () => {
     if (popupRef.current && togglerRef.current) {
-      let x = togglerRef.current.offsetLeft
-        + togglerRef.current.offsetWidth / 2
-        - popupRef.current.offsetWidth / 2;
-      if (x < distanceFromEdge) {
-        x = distanceFromEdge;
-      } else if (x + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdge) {
-        x -= x + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdge);
-      }
-      const y = togglerRef.current.offsetTop
-        + togglerRef.current.offsetHeight
-        + distanceFromToggler;
+      let x = 0;
+      let y = 0;
+      let top = '';
+      let left = '';
 
-      setPosition({ x, y });
+      switch (position[0]) {
+        case 'center': {
+          x = togglerRef.current.offsetLeft
+            + togglerRef.current.offsetWidth / 2
+            - popupRef.current.offsetWidth / 2;
+          left = '50%';
+          break;
+        }
+        case 'left': {
+          x = togglerRef.current.offsetLeft
+            - popupRef.current.offsetWidth
+            - distanceFromToggler;
+          left = '100%';
+          break;
+        }
+        case 'midleft': {
+          x = togglerRef.current.offsetLeft
+            + togglerRef.current.offsetWidth
+            - popupRef.current.offsetWidth;
+          left = `${popupRef.current.offsetWidth - arrowSize * 2}px`;
+          break;
+        }
+        case 'right': {
+          x = togglerRef.current.offsetLeft
+            + togglerRef.current.offsetWidth
+            + distanceFromToggler;
+          left = `-${arrowSize + 1}px`;
+          break;
+        }
+        case 'midright': {
+          x = togglerRef.current.offsetLeft;
+          left = `${arrowSize * 2}px`;
+          break;
+        }
+        default: {
+          throw new Error('Position on the horizontal axis : wrong value provided.');
+        }
+      }
+
+      switch (position[1]) {
+        case 'center': {
+          y = togglerRef.current.offsetTop
+            + togglerRef.current.offsetHeight / 2
+            - popupRef.current.offsetHeight / 2;
+          top = '50%';
+          break;
+        }
+        case 'top': {
+          y = togglerRef.current.offsetTop
+            - popupRef.current.offsetHeight
+            - distanceFromToggler;
+          top = '100%';
+          break;
+        }
+        case 'midtop': {
+          y = togglerRef.current.offsetTop
+            + togglerRef.current.offsetHeight
+            - popupRef.current.offsetHeight;
+          top = `${popupRef.current.offsetHeight - arrowSize * 2}px`;
+          break;
+        }
+        case 'bottom': {
+          y = togglerRef.current.offsetTop
+            + togglerRef.current.offsetHeight
+            + distanceFromToggler;
+          top = `-${arrowSize + 1}px`;
+          break;
+        }
+        case 'midbottom': {
+          y = togglerRef.current.offsetTop;
+          top = `${arrowSize * 2}px`;
+          break;
+        }
+        default: {
+          throw new Error('Position on the vertical axis : wrong value provided.');
+        }
+      }
+
+      /* Handle popup not going beyond edges of the screen */
+      if (x < distanceFromEdges) {
+        x = distanceFromEdges;
+      } else if (x + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdges) {
+        x -= x + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdges);
+      }
+
+      setPos({ x, y });
+      setArrowPos({ top, left });
     }
   };
 
@@ -59,37 +163,57 @@ const Popup: FC<Props> = ({ children, toggler }) => {
     });
   }, []);
 
-  // eslint-disable-next-line no-unused-vars
-  const app = (newRoot: string) => {
-    setRoot(newRoot);
-  };
+  const openPopup = () => setOpen(true);
+
+  const closePopup = () => setOpen(false);
 
   const togglePopup = () => setOpen((state) => !state);
 
   return (
     <>
-      {cloneElement(toggler, {
-        onClick: togglePopup,
-        ref: togglerRef,
-      })}
+      {cloneElement(
+        toggler,
+        toggleOn === 'click'
+          ? {
+            onClick: togglePopup,
+            ref: togglerRef,
+          }
+          : {
+            onMouseEnter: openPopup,
+            onMouseLeave: closePopup,
+            ref: togglerRef,
+          },
+      )}
       {createPortal(
         <>
           <div
-            className={`cpopup default ${open && 'open'}`}
+            className={`cpopup ${className || 'default'} ${fixed && 'fixed'} ${open && 'open'}`}
             ref={popupRef}
             style={{
-              top: position.y,
-              left: position.x,
+              top: pos.y,
+              left: pos.x,
             }}
           >
+            {arrow && (
+              <div
+                className={`cpopup-arrow ${position[0]} ${position[1]}`}
+                style={{
+                  ...arrowPos,
+                  width: `${arrowSize}px`,
+                  height: `${arrowSize}px`,
+                }}
+              />
+            )}
             {children}
           </div>
-          <div
-            className={`cpopup-background default ${open && 'active'}`}
-            onClick={togglePopup}
-            role="button"
-            aria-hidden="true"
-          />
+          {toggleOn === 'click' && (
+            <div
+              className={`cpopup-background ${!className && 'default'} ${open && 'active'}`}
+              onClick={togglePopup}
+              role="button"
+              aria-hidden="true"
+            />
+          )}
         </>,
         document.querySelector(root) as Element,
       )}

@@ -5,7 +5,7 @@ import Popup, { Props } from '../src';
 import '../src/index.scss';
 
 const meta: Meta = {
-  title: 'Popup',
+  title: 'React Customizable Popup',
   component: Popup,
 };
 
@@ -24,3 +24,4 @@ const Template: Story<Props> = (args) => (
 );
 
 export const Default = Template.bind({});
+Default.args = {};
