@@ -24,6 +24,7 @@ export type Props = {
   distanceFromEdges?: number,
   distanceFromToggler?: number,
   fixed?: boolean,
+  arrow?: boolean,
 }
 
 const Popup: FC<Props> = ({
@@ -36,6 +37,7 @@ const Popup: FC<Props> = ({
   distanceFromEdges = 0,
   distanceFromToggler = 12,
   fixed = false,
+  arrow = true,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
@@ -180,6 +182,9 @@ const Popup: FC<Props> = ({
               left: pos.x,
             }}
           >
+            {arrow && (
+              <div className={`cpopup-arrow ${'top'}`} />
+            )}
             {children}
           </div>
           {toggleOn === 'click' && (

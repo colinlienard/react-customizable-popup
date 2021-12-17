@@ -1,33 +1,8 @@
-@mixin arrow($x) {
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: calc($x - 5px);
-    width: 0;
-    height: 0;
-    border: 9px solid transparent;
-    border-bottom-color: #cacaca;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: calc($x - 5px + 1px);
-    width: 0;
-    height: 0;
-    border: 8px solid transparent;
-    border-bottom-color: white;
-  }
-}
-
 .cpopup {
   z-index: 999;
   position: absolute;
   opacity: 0;
   pointer-events: none;
-  @include arrow(50%);
 
   &.fixed {
     position: fixed;
@@ -52,6 +27,20 @@
       transition: .3s cubic-bezier(0, .5, .5, 1.5);
     }
   }
+}
+
+.cpopup-arrow {  
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  background-color: inherit;
+  border: inherit;
+  border-bottom: none;
+  border-left: none;
+  transform: translate(-50%, 50%) rotate(-45deg);
 }
 
 .cpopup-background {
