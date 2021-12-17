@@ -23,6 +23,7 @@ export type Props = {
   ],
   toggleOn?: 'click' | 'hover',
   disableScroll?: boolean,
+  className?: string,
 }
 
 const Popup: FC<Props> = ({
@@ -31,6 +32,7 @@ const Popup: FC<Props> = ({
   position = ['center', 'bottom'],
   toggleOn = 'click',
   disableScroll = true,
+  className = undefined,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
@@ -168,7 +170,7 @@ const Popup: FC<Props> = ({
       {createPortal(
         <>
           <div
-            className={`cpopup default ${open && 'open'}`}
+            className={`cpopup ${className || 'default'} ${open && 'open'}`}
             ref={popupRef}
             style={{
               top: pos.y,
@@ -179,7 +181,7 @@ const Popup: FC<Props> = ({
           </div>
           {toggleOn === 'click' && (
             <div
-              className={`cpopup-background default ${open && 'active'}`}
+              className={`cpopup-background ${!className && 'default'} ${open && 'active'}`}
               onClick={togglePopup}
               role="button"
               aria-hidden="true"
