@@ -131,9 +131,10 @@ Here are listed all the props you can use to customize your popup as you wish.
 > Default value: `#root`
 
 The root of the application.
+
 This prop is quite important depending on the framework you use. The root of the application often has an id equal to `root`, but not all the time. For example, if you are using [Nextjs](https://nextjs.org/), this prop should take the value `#next`.
 
-### `toggler`
+#### `toggler`
 
 > Required: **yes**
 >
@@ -142,9 +143,10 @@ This prop is quite important depending on the framework you use. The root of the
 > Default value: none
 
 The trigger for opening the popup.
+
 See [Usage](#usage).
 
-### `toggleOn`
+#### `toggleOn`
 
 > Required: **no**
 >
@@ -153,9 +155,10 @@ See [Usage](#usage).
 > Default value: `'click'`
 
 The way to trigger the opening of the popup.
+
 The popup will open either when the toggler is clicked or when the mouse hovers over the toggle. If `hover` is chosen, the [`background`](#background) prop will be set to false.
 
-### `position`
+#### `position`
 
 > Required: **no**
 >
@@ -170,9 +173,10 @@ The popup will open either when the toggler is clicked or when the mouse hovers 
 > Default value: `['center', 'bottom']`
 
 The position of the popup in relation to the toggler.
+
 The first value in the array corresponds to the horizontal axis, and the second corresponds to the vertical axis. Values starting with `mid` place the popup on an edge of the toggler and make it go beyond the other edge. To understand it better, look at the [demo]().
 
-### `disableScroll`
+#### `disableScroll`
 
 > Required: **no**
 >
@@ -181,9 +185,10 @@ The first value in the array corresponds to the horizontal axis, and the second 
 > Default value: `true`
 
 If the scroll is disabled while the popup is open.
+
 ⚠️ This prop is equal to `false` if the prop [`fixed`](#fixed) is set to `true`.
 
-### `fixed`
+#### `fixed`
 
 > Required: **no**
 >
@@ -192,9 +197,10 @@ If the scroll is disabled while the popup is open.
 > Default value: `false`
 
 If the popup remains fixed at its opening position at scroll.
+
 ⚠️ If this property is set to `true`, the prop [`disableScroll`](#disablescroll) will be set to `false`.
 
-### `arrow`
+#### `arrow`
 
 > Required: **no**
 >
@@ -203,9 +209,10 @@ If the popup remains fixed at its opening position at scroll.
 > Default value: `true`
 
 If there is an arrow.
+
 The arrow is automatically positioned according to the position of the popup and the toggler. This arrow is easy to [style](#applying-styles).
 
-### `arrowSize`
+#### `arrowSize`
 
 > Required: **no**
 >
@@ -215,7 +222,7 @@ The arrow is automatically positioned according to the position of the popup and
 
 The size of the arrow in pixels.
 
-### `background`
+#### `background`
 
 > Required: **no**
 >
@@ -224,9 +231,10 @@ The size of the arrow in pixels.
 > Default value: `true`
 
 If there is a background.
+
 This background appears when the popup is open and allows to close it with a click. It is possible to [style](#applying-styles) this background.
 
-### `className`
+#### `className`
 
 > Required: **no**
 >
@@ -235,9 +243,10 @@ This background appears when the popup is open and allows to close it with a cli
 > Default value: none
 
 The class(es) to apply to the popup.
-⚠️ By specifying this property, the default popup and background styles will be omitted so you can apply your own.
 
-### `distanceFromToggler`
+⚠️ By specifying this property, the default popup and background styles will be omitted so you can [apply your own](#applying-styles).
+
+#### `distanceFromToggler`
 
 > Required: **no**
 >
@@ -247,7 +256,7 @@ The class(es) to apply to the popup.
 
 The distance from the popup to the toggler in pixels.
 
-### `distanceFromEdges`
+#### `distanceFromEdges`
 
 > Required: **no**
 >
@@ -256,7 +265,42 @@ The distance from the popup to the toggler in pixels.
 > Default value: `0`
 
 The distance from the popup to the edges of the screen.
+
 If the popup is too large and overflows from one side of the screen, its position will be adjusted so that the popup does not overflow. This property corresponds to the minimum distance the popup will have from the edges of the screen so that it will not stick to it.
+
+### Styling
+
+#### Applying styles
+
+Styles are set by default and you can keep them if you want, but you can also delete them and set your own. To do this, add the [`className`](#classname) property and simply customize your popup with css.
+
+The [`arrow`](#arrow) will inherit the background and border styles from your popup, so you don't have to worry about it. If you want to change its size, look at the [`arrowSize`](#arrowsize) prop.
+
+By adding the [`className`](#classname) prop, the [`background`](#background) styles will also be removed. To add new ones, you need to use the `cpopup-background` class.
+
+```css
+.cpopup-background {
+  /* Your styles */
+}
+```
+
+#### Applying animations
+
+The animations are simply css transitions because the popup is never removed from the DOM. To set different animations at the opening and closing of the popup, you can use the `open` class over your own class.
+
+```css
+.my-popup-class {
+  /* The closing animation */
+  transition: 0.1s ease-in;
+}
+
+.my-popup-class.open {
+  /* The opening animation */
+  transition: 0.3s ease-out;
+}
+```
+
+The [`background`](#background) animation is similar
 
 ## 📄 License
 
