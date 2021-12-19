@@ -15,13 +15,11 @@ export default [
       {
         file: packageJson.main,
         format: 'cjs',
-        sourcemap: true,
         exports: 'default',
       },
       {
         file: packageJson.module,
         format: 'esm',
-        sourcemap: true,
       },
     ],
     plugins: [
@@ -31,7 +29,6 @@ export default [
       typescript({
         tsconfig: './tsconfig.json',
         filterRoot: './src',
-        exclude: './__stories__',
       }),
       postcss(),
       terser(),
