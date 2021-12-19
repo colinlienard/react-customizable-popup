@@ -1,6 +1,6 @@
 {
   "name": "react-customizable-popup",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple and easy to use react library to create fully customizable popups",
   "author": "Colin Lienard",
   "keywords": [
@@ -13,9 +13,7 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ColinLienard/react-customizable-popup.git"
