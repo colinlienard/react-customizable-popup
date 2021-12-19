@@ -4,7 +4,7 @@
 
 [![MIT License](https://img.shields.io/github/license/ColinLienard/react-customizable-popup?color=brightgreen)](LICENSE)
 
-A simple and easy to use react library to create [fully customizable](#📚-documentation) popups.
+A simple and easy to use react library to create [fully customizable](#-documentation) popups.
 
 </div>
 
@@ -14,7 +14,7 @@ A simple and easy to use react library to create [fully customizable](#📚-docu
 
 - ✨ [Features](#-features)
 - 🔎 [Example](#-example)
-- 📦️ [Installation](#-installation)
+- 🚚 [Installation](#-installation)
 - 📚 [Documentation](#-documentation)
   - [Usage](#Usage)
   - [Props](#Props)
@@ -69,7 +69,7 @@ const App = () => {
 }
 ```
 
-## 📦️ Installation
+## 🚚 Installation
 
 ### Using Yarn
 
