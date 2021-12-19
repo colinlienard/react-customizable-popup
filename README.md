@@ -12,10 +12,10 @@ A simple and easy to use react library to create [fully customizable](#📚-docu
 
 ## 📋 Table of content
 
-- [✨ Features](#✨-features)
-- [🔎 Example](#🔎-example)
-- [📦️ Installation](#📦️-installation)
-- [📚 Documentation](#📚-documentation)
+- ✨ [Features](#-features)
+- 🔎 [Example](#-example)
+- 📦️ [Installation](#-installation)
+- 📚 [Documentation](#-documentation)
   - [Usage](#Usage)
   - [Props](#Props)
     - [`root`](#root)
@@ -33,7 +33,7 @@ A simple and easy to use react library to create [fully customizable](#📚-docu
   - [Styling](#styling)
     - [Applying styles](#applying-styles)
     - [Applying animations](#applying-animations)
-- [📄 License](#📄-license)
+- 📄 [License](#-license)
 
 ## ✨ Features
 
@@ -300,7 +300,7 @@ The animations are simply css transitions because the popup is never removed fro
 }
 ```
 
-The [`background`](#background) animation is similar
+The [`background`](#background) animation is similar.
 
 ## 📄 License
 
