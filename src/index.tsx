@@ -20,7 +20,7 @@ export type Props = {
   ],
   toggleOn?: 'click' | 'hover',
   background?: boolean,
-  disableScroll?: boolean,
+  noScroll?: boolean,
   className?: string,
   distanceFromEdges?: number,
   distanceFromToggler?: number,
@@ -36,7 +36,7 @@ const Popup: FC<Props> = ({
   position = ['center', 'bottom'],
   toggleOn = 'click',
   background = true,
-  disableScroll = true,
+  noScroll = true,
   className,
   distanceFromEdges = 0,
   distanceFromToggler = 12,
@@ -48,10 +48,7 @@ const Popup: FC<Props> = ({
   const [open, setOpen] = useState<boolean>(false);
   const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
   const [arrowPos, setArrowPos] = useState<{ top: string, left: string }>({ top: '', left: '' });
-
-  if (disableScroll && !fixed) {
-    useDisableScroll(open);
-  }
+  const [enableScroll, disableScroll] = useDisableScroll();
 
   const popupRef = useRef<HTMLDivElement>(null);
   const togglerRef = useRef<HTMLElement>(null);
@@ -164,6 +161,14 @@ const Popup: FC<Props> = ({
       closeElement.addEventListener('click', () => setOpen(false));
     });
   }, []);
+
+  useEffect(() => {
+    if (open && noScroll && !fixed) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [open]);
 
   const openPopup = () => setOpen(true);
 
