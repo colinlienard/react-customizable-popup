@@ -2,7 +2,7 @@
 
 # 💬 react-customizable-popup
 
-[![NPM version](https://img.shields.io/npm/v/react-customizable-popup)] [![NPM size](https://img.shields.io/bundlephobia/min/react-customizable-popup?label=size&color=ff69b4)] [![MIT License](https://img.shields.io/github/license/ColinLienard/react-customizable-popup?color=brightgreen)](LICENSE)
+[![NPM version](https://img.shields.io/npm/v/react-customizable-popup)](https://www.npmjs.com/package/react-customizable-popup) ![NPM size](https://img.shields.io/bundlephobia/min/react-customizable-popup?label=size&color=ff69b4) [![MIT License](https://img.shields.io/github/license/ColinLienard/react-customizable-popup?color=brightgreen)](LICENSE)
 
 A simple and easy to use react library to create [fully customizable](#-documentation) popups.
 
@@ -22,7 +22,7 @@ A simple and easy to use react library to create [fully customizable](#-document
     - [`toggler`](#toggler)
     - [`toggleOn`](#toggleon)
     - [`position`](#position)
-    - [`disableScroll`](#disablescroll)
+    - [`noScroll`](#noscroll)
     - [`fixed`](#fixed)
     - [`arrow`](#arrow)
     - [`arrowSize`](#arrowsize)
@@ -125,7 +125,7 @@ Here are listed all the props you can use to customize your popup as you wish.
 #### `root`
 
 > Required: **no**
-
+>
 > Type: **string**
 >
 > Default value: `#root`
@@ -176,7 +176,7 @@ The position of the popup in relation to the toggler.
 
 The first value in the array corresponds to the horizontal axis, and the second corresponds to the vertical axis. Values starting with `mid` place the popup on an edge of the toggler and make it go beyond the other edge. To understand it better, look at the [demo]().
 
-#### `disableScroll`
+#### `noScroll`
 
 > Required: **no**
 >
@@ -198,7 +198,7 @@ If the scroll is disabled while the popup is open.
 
 If the popup remains fixed at its opening position at scroll.
 
-⚠️ If this property is set to `true`, the prop [`disableScroll`](#disablescroll) will be set to `false`.
+⚠️ If this property is set to `true`, the prop [`noScroll`](#noscroll) will be set to `false`.
 
 #### `arrow`
 
