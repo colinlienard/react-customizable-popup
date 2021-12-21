@@ -38,6 +38,7 @@ const Popup: FC<Props> = ({
   background = true,
   noScroll = true,
   className,
+  /* eslint-disable-next-line no-unused-vars */
   distanceFromEdges = 0,
   distanceFromToggler = 12,
   fixed = false,
@@ -46,7 +47,7 @@ const Popup: FC<Props> = ({
   root = '#root',
 }) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [pos, setPos] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+  const [pos, setPos] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
   const [arrowPos, setArrowPos] = useState<{ top: string, left: string }>({ top: '', left: '' });
   const [enableScroll, disableScroll] = useDisableScroll();
 
@@ -55,43 +56,43 @@ const Popup: FC<Props> = ({
 
   const getPosition = () => {
     if (popupRef.current && togglerRef.current) {
-      let x = 0;
-      let y = 0;
-      let top = '';
-      let left = '';
+      let top = 0;
+      let left = 0;
+      let arrowTop = '';
+      let arrowLeft = '';
 
       switch (position[0]) {
         case 'center': {
-          x = togglerRef.current.offsetLeft
+          left = togglerRef.current.offsetLeft
             + togglerRef.current.offsetWidth / 2
             - popupRef.current.offsetWidth / 2;
-          left = '50%';
+          arrowLeft = '50%';
           break;
         }
         case 'left': {
-          x = togglerRef.current.offsetLeft
+          left = togglerRef.current.offsetLeft
             - popupRef.current.offsetWidth
             - distanceFromToggler;
-          left = '100%';
+          arrowLeft = '100%';
           break;
         }
         case 'midleft': {
-          x = togglerRef.current.offsetLeft
+          left = togglerRef.current.offsetLeft
             + togglerRef.current.offsetWidth
             - popupRef.current.offsetWidth;
-          left = `${popupRef.current.offsetWidth - arrowSize * 2}px`;
+          arrowLeft = `${popupRef.current.offsetWidth - arrowSize * 2}px`;
           break;
         }
         case 'right': {
-          x = togglerRef.current.offsetLeft
+          left = togglerRef.current.offsetLeft
             + togglerRef.current.offsetWidth
             + distanceFromToggler;
-          left = `-${arrowSize + 1}px`;
+          arrowLeft = `-${arrowSize + 1}px`;
           break;
         }
         case 'midright': {
-          x = togglerRef.current.offsetLeft;
-          left = `${arrowSize * 2}px`;
+          left = togglerRef.current.offsetLeft;
+          arrowLeft = `${arrowSize * 2}px`;
           break;
         }
         default: {
@@ -101,36 +102,36 @@ const Popup: FC<Props> = ({
 
       switch (position[1]) {
         case 'center': {
-          y = togglerRef.current.offsetTop
+          top = togglerRef.current.offsetTop
             + togglerRef.current.offsetHeight / 2
             - popupRef.current.offsetHeight / 2;
-          top = '50%';
+          arrowTop = '50%';
           break;
         }
         case 'top': {
-          y = togglerRef.current.offsetTop
+          top = togglerRef.current.offsetTop
             - popupRef.current.offsetHeight
             - distanceFromToggler;
-          top = '100%';
+          arrowTop = '100%';
           break;
         }
         case 'midtop': {
-          y = togglerRef.current.offsetTop
+          top = togglerRef.current.offsetTop
             + togglerRef.current.offsetHeight
             - popupRef.current.offsetHeight;
-          top = `${popupRef.current.offsetHeight - arrowSize * 2}px`;
+          arrowTop = `${popupRef.current.offsetHeight - arrowSize * 2}px`;
           break;
         }
         case 'bottom': {
-          y = togglerRef.current.offsetTop
+          top = togglerRef.current.offsetTop
             + togglerRef.current.offsetHeight
             + distanceFromToggler;
-          top = `-${arrowSize + 1}px`;
+          arrowTop = `-${arrowSize + 1}px`;
           break;
         }
         case 'midbottom': {
-          y = togglerRef.current.offsetTop;
-          top = `${arrowSize * 2}px`;
+          top = togglerRef.current.offsetTop;
+          arrowTop = `${arrowSize * 2}px`;
           break;
         }
         default: {
@@ -138,21 +139,21 @@ const Popup: FC<Props> = ({
         }
       }
 
-      /* Handle popup not going beyond edges of the screen */
-      if (x < distanceFromEdges) {
-        x = distanceFromEdges;
-      } else if (x + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdges) {
-        x -= x + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdges);
+      /*
+      WIP: Handle popup not going beyond edges of the screen
+      if (left < distanceFromEdges) {
+        left = distanceFromEdges;
+      } else if (left + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdges) {
+        left -= left + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdges);
       }
+      */
 
-      setPos({ x, y });
-      setArrowPos({ top, left });
+      setPos({ top, left });
+      setArrowPos({ top: arrowTop, left: arrowLeft });
     }
   };
 
   useEffect(() => {
-    getPosition();
-
     window.addEventListener('resize', () => {
       getPosition();
     });
@@ -163,8 +164,11 @@ const Popup: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (open && noScroll && !fixed) {
-      disableScroll();
+    if (open) {
+      getPosition();
+      if (noScroll && !fixed) {
+        disableScroll();
+      }
     } else {
       enableScroll();
     }
@@ -196,10 +200,7 @@ const Popup: FC<Props> = ({
           <div
             className={`cpopup ${className || 'default'} ${fixed && 'fixed'} ${open && 'open'}`}
             ref={popupRef}
-            style={{
-              top: pos.y,
-              left: pos.x,
-            }}
+            style={pos}
           >
             {arrow && (
               <div
