@@ -28,6 +28,7 @@ A simple and easy to use react library to create [fully customizable](#-document
     - [`arrowSize`](#arrowsize)
     - [`background`](#background)
     - [`className`](#classname)
+    - [`backgroundClassName`](#backgroundclassname)
     - [`distanceFromToggler`](#distancefromtoggler)
     - [`distanceFromEdges`](#distancefromedges)
   - [Styling](#styling)
@@ -198,7 +199,7 @@ If the scroll is disabled while the popup is open.
 
 If the popup remains fixed at its opening position at scroll.
 
-⚠️ If this property is set to `true`, the prop [`noScroll`](#noscroll) will be set to `false`.
+⚠️ If this prop is set to `true`, the prop [`noScroll`](#noscroll) will be set to `false`.
 
 #### `arrow`
 
@@ -244,7 +245,19 @@ This background appears when the popup is open and allows to close it with a cli
 
 The class(es) to apply to the popup.
 
-⚠️ By specifying this property, the default popup and background styles will be omitted so you can [apply your own](#applying-styles).
+⚠️ By specifying this prop, the default popup styles will be omitted so you can [apply your own](#applying-styles).
+
+#### `backgroundClassName`
+
+> Required: **no**
+>
+> Type: **string**
+>
+> Default value: none
+
+The class(es) to apply to the popup background.
+
+⚠️ By specifying this prop, the default background styles will be omitted so you can [apply your own](#applying-styles).
 
 #### `distanceFromToggler`
 
@@ -266,23 +279,17 @@ The distance from the popup to the toggler in pixels.
 
 The distance from the popup to the edges of the screen.
 
-If the popup is too large and overflows from one side of the screen, its position will be adjusted so that the popup does not overflow. This property corresponds to the minimum distance the popup will have from the edges of the screen so that it will not stick to it.
+If the popup is too large and overflows from one side of the screen, its position will be adjusted so that the popup does not overflow. This prop corresponds to the minimum distance the popup will have from the edges of the screen so that it will not stick to it.
 
 ### Styling
 
 #### Applying styles
 
-Styles are set by default and you can keep them if you want, but you can also delete them and set your own. To do this, add the [`className`](#classname) property and simply customize your popup with css.
+Styles are set by default and you can keep them if you want, but you can also delete them and set your own. To do this, add the [`className`](#classname) prop (and/or the [`backgroundClassName`](#backgroundclassname) prop) and simply customize your popup with css.
 
 The [`arrow`](#arrow) will inherit the background and border styles from your popup, so you don't have to worry about it. If you want to change its size, look at the [`arrowSize`](#arrowsize) prop.
 
 By adding the [`className`](#classname) prop, the [`background`](#background) styles will also be removed. To add new ones, you need to use the `cpopup-background` class.
-
-```css
-.cpopup-background {
-  /* Your styles */
-}
-```
 
 #### Applying animations
 
@@ -300,7 +307,7 @@ The animations are simply css transitions because the popup is never removed fro
 }
 ```
 
-The [`background`](#background) animation is similar.
+The [`background`](#background) animations work in the same way.
 
 ## 📄 License
 

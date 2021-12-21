@@ -22,6 +22,7 @@ export type Props = {
   background?: boolean,
   noScroll?: boolean,
   className?: string,
+  backgroundClassName?: string,
   distanceFromEdges?: number,
   distanceFromToggler?: number,
   fixed?: boolean,
@@ -38,6 +39,7 @@ const Popup: FC<Props> = ({
   background = true,
   noScroll = true,
   className,
+  backgroundClassName,
   /* eslint-disable-next-line no-unused-vars */
   distanceFromEdges = 0,
   distanceFromToggler = 12,
@@ -216,7 +218,7 @@ const Popup: FC<Props> = ({
           </div>
           {toggleOn === 'click' && background && (
             <div
-              className={`cpopup-background ${!className && 'default'} ${open && 'active'}`}
+              className={`cpopup-background ${backgroundClassName || 'default'} ${open && 'active'}`}
               onClick={togglePopup}
               role="button"
               aria-hidden="true"
