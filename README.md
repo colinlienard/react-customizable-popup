@@ -2,7 +2,7 @@
 
 # 💬 react-customizable-popup
 
-[![MIT License](https://img.shields.io/github/license/ColinLienard/react-customizable-popup?color=brightgreen)](LICENSE)
+[![NPM version](https://img.shields.io/npm/v/react-customizable-popup)] [![NPM size](https://img.shields.io/bundlephobia/min/react-customizable-popup?label=size&color=ff69b4)] [![MIT License](https://img.shields.io/github/license/ColinLienard/react-customizable-popup?color=brightgreen)](LICENSE)
 
 A simple and easy to use react library to create [fully customizable](#-documentation) popups.
 
@@ -125,7 +125,7 @@ Here are listed all the props you can use to customize your popup as you wish.
 #### `root`
 
 > Required: **no**
->
+
 > Type: **string**
 >
 > Default value: `#root`
