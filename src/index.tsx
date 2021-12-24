@@ -23,8 +23,8 @@ export type Props = {
   noScroll?: boolean,
   className?: string,
   backgroundClassName?: string,
-  distanceFromEdges?: number,
   distanceFromToggler?: number,
+  // distanceFromEdges?: number,
   fixed?: boolean,
   arrow?: boolean,
   arrowSize?: number,
@@ -40,17 +40,16 @@ const Popup: FC<Props> = ({
   noScroll = true,
   className,
   backgroundClassName,
-  /* eslint-disable-next-line no-unused-vars */
-  distanceFromEdges = 0,
+  // distanceFromEdges = 0,
   distanceFromToggler = 12,
   fixed = false,
   arrow = true,
   arrowSize = 12,
   root = '#root',
 }) => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [pos, setPos] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
-  const [arrowPos, setArrowPos] = useState<{ top: string, left: string }>({ top: '', left: '' });
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const [arrowPos, setArrowPos] = useState({ top: '', left: '' });
   const [enableScroll, disableScroll] = useDisableScroll();
 
   const popupRef = useRef<HTMLDivElement>(null);
@@ -156,13 +155,23 @@ const Popup: FC<Props> = ({
   };
 
   useEffect(() => {
-    window.addEventListener('resize', () => {
-      getPosition();
-    });
+    getPosition();
+
+    window.addEventListener('resize', getPosition);
 
     document.querySelectorAll('[data-close]').forEach((closeElement) => {
       closeElement.addEventListener('click', () => setOpen(false));
     });
+
+    return () => {
+      window.removeEventListener('resize', getPosition);
+
+      document.querySelectorAll('[data-close]').forEach((closeElement) => {
+        closeElement.removeEventListener('click', () => setOpen(false));
+      });
+
+      enableScroll();
+    };
   }, []);
 
   useEffect(() => {
