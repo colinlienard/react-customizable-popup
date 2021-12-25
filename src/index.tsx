@@ -183,6 +183,12 @@ const Popup: FC<Props> = ({
     });
   };
 
+  const handleEchapKey = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && open) {
+      closePopup();
+    }
+  };
+
   useEffect(() => {
     getPosition();
 
@@ -209,9 +215,15 @@ const Popup: FC<Props> = ({
       if (noScroll && !fixed) {
         disableScroll();
       }
-    } else {
+    } else if (noScroll && !fixed) {
       enableScroll();
     }
+
+    window.addEventListener('keydown', handleEchapKey);
+
+    return () => {
+      window.removeEventListener('keydown', handleEchapKey);
+    };
   }, [open]);
 
   return (
