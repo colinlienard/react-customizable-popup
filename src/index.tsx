@@ -29,6 +29,8 @@ export type Props = {
   arrow?: boolean,
   arrowSize?: number,
   root?: string,
+  onOpen?: () => void,
+  onClose?: () => void,
 }
 
 const Popup: FC<Props> = ({
@@ -46,6 +48,8 @@ const Popup: FC<Props> = ({
   arrow = true,
   arrowSize = 12,
   root = '#root',
+  onOpen,
+  onClose,
 }) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
@@ -154,20 +158,45 @@ const Popup: FC<Props> = ({
     }
   };
 
+  const openPopup = () => {
+    setOpen(true);
+    if (onOpen) {
+      onOpen();
+    }
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const togglePopup = () => {
+    setOpen((state) => {
+      if (state && onClose) {
+        onClose();
+      } else if (onOpen) {
+        onOpen();
+      }
+      return !state;
+    });
+  };
+
   useEffect(() => {
     getPosition();
 
     window.addEventListener('resize', getPosition);
 
     document.querySelectorAll('[data-close]').forEach((closeElement) => {
-      closeElement.addEventListener('click', () => setOpen(false));
+      closeElement.addEventListener('click', closePopup);
     });
 
     return () => {
       window.removeEventListener('resize', getPosition);
 
       document.querySelectorAll('[data-close]').forEach((closeElement) => {
-        closeElement.removeEventListener('click', () => setOpen(false));
+        closeElement.removeEventListener('click', closePopup);
       });
 
       enableScroll();
@@ -184,12 +213,6 @@ const Popup: FC<Props> = ({
       enableScroll();
     }
   }, [open]);
-
-  const openPopup = () => setOpen(true);
-
-  const closePopup = () => setOpen(false);
-
-  const togglePopup = () => setOpen((state) => !state);
 
   return (
     <>
