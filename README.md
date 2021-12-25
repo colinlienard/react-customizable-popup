@@ -26,9 +26,9 @@ A simple and easy to use react library to create [fully customizable](#-document
     - [`fixed`](#fixed)
     - [`arrow`](#arrow)
     - [`arrowSize`](#arrowsize)
-    - [`background`](#background)
+    - [`backdrop`](#backdrop)
     - [`className`](#classname)
-    - [`backgroundClassName`](#backgroundclassname)
+    - [`backdropClassName`](#backdropclassname)
     - [`distanceFromToggler`](#distancefromtoggler)
     - [`distanceFromEdges`](#distancefromedges)
   - [Styling](#styling)
@@ -106,7 +106,7 @@ const App = () => {
 }
 ```
 
-If you test this code, you will see that your toggler is present. The popup is located at the [`root`](#root) of your application. When you click on your toggler, the popup will appear on top of all the other elements, along with an optional [`background`](#background) that allows you to close the popup by clicking on it.
+If you test this code, you will see that your toggler is present. The popup is located at the [`root`](#root) of your application. When you click on your toggler, the popup will appear on top of all the other elements, along with an optional [`backdrop`](#backdrop) that allows you to close the popup by clicking on it.
 
 You can also add an element (like a cross for example) inside the popup to close it. To do this, add the attribute `data-close` to your element.
 
@@ -157,7 +157,7 @@ See [Usage](#usage).
 
 The way to trigger the opening of the popup.
 
-The popup will open either when the toggler is clicked or when the mouse hovers over the toggle. If `hover` is chosen, the [`background`](#background) prop will be set to false.
+The popup will open either when the toggler is clicked or when the mouse hovers over the toggle. If `hover` is chosen, the [`backdrop`](#backdrop) prop will be set to false.
 
 #### `position`
 
@@ -223,7 +223,7 @@ The arrow is automatically positioned according to the position of the popup and
 
 The size of the arrow in pixels.
 
-#### `background`
+#### `backdrop`
 
 > Required: **no**
 >
@@ -231,9 +231,9 @@ The size of the arrow in pixels.
 >
 > Default value: `true`
 
-If there is a background.
+If there is a backdrop.
 
-This background appears when the popup is open and allows to close it with a click. It is possible to [style](#applying-styles) this background.
+This backdrop appears when the popup is open and allows to close it with a click. It is possible to [style](#applying-styles) this backdrop.
 
 #### `className`
 
@@ -247,7 +247,7 @@ The class(es) to apply to the popup.
 
 ⚠️ By specifying this prop, the default popup styles will be omitted so you can [apply your own](#applying-styles).
 
-#### `backgroundClassName`
+#### `backdropClassName`
 
 > Required: **no**
 >
@@ -255,9 +255,9 @@ The class(es) to apply to the popup.
 >
 > Default value: none
 
-The class(es) to apply to the popup background.
+The class(es) to apply to the popup backdrop.
 
-⚠️ By specifying this prop, the default background styles will be omitted so you can [apply your own](#applying-styles).
+⚠️ By specifying this prop, the default backdrop styles will be omitted so you can [apply your own](#applying-styles).
 
 #### `distanceFromToggler`
 
@@ -285,11 +285,11 @@ If the popup is too large and overflows from one side of the screen, its positio
 
 #### Applying styles
 
-Styles are set by default and you can keep them if you want, but you can also delete them and set your own. To do this, add the [`className`](#classname) prop (and/or the [`backgroundClassName`](#backgroundclassname) prop) and simply customize your popup with css.
+Styles are set by default and you can keep them if you want, but you can also delete them and set your own. To do this, add the [`className`](#classname) prop (and/or the [`backdropClassName`](#backdropclassname) prop) and simply customize your popup with css.
 
-The [`arrow`](#arrow) will inherit the background and border styles from your popup, so you don't have to worry about it. If you want to change its size, look at the [`arrowSize`](#arrowsize) prop.
+The [`arrow`](#arrow) will inherit the backdrop and border styles from your popup, so you don't have to worry about it. If you want to change its size, look at the [`arrowSize`](#arrowsize) prop.
 
-By adding the [`className`](#classname) prop, the [`background`](#background) styles will also be removed. To add new ones, you need to use the `cpopup-background` class.
+By adding the [`className`](#classname) prop, the [`backdrop`](#backdrop) styles will also be removed. To add new ones, you need to use the `cpopup-backdrop` class.
 
 #### Applying animations
 
@@ -307,7 +307,7 @@ The animations are simply css transitions because the popup is never removed fro
 }
 ```
 
-The [`background`](#background) animations work in the same way.
+The [`backdrop`](#backdrop) animations work in the same way.
 
 ## 📄 License
 

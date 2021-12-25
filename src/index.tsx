@@ -19,10 +19,10 @@ export type Props = {
     'center' | 'top' | 'midtop' | 'bottom' | 'midbottom',
   ],
   toggleOn?: 'click' | 'hover',
-  background?: boolean,
+  backdrop?: boolean,
   noScroll?: boolean,
   className?: string,
-  backgroundClassName?: string,
+  backdropClassName?: string,
   distanceFromToggler?: number,
   // distanceFromEdges?: number,
   fixed?: boolean,
@@ -38,10 +38,10 @@ const Popup: FC<Props> = ({
   toggler,
   position = ['center', 'bottom'],
   toggleOn = 'click',
-  background = true,
+  backdrop = true,
   noScroll = true,
   className,
-  backgroundClassName,
+  backdropClassName,
   // distanceFromEdges = 0,
   distanceFromToggler = 12,
   fixed = false,
@@ -260,9 +260,9 @@ const Popup: FC<Props> = ({
             )}
             {children}
           </div>
-          {toggleOn === 'click' && background && (
+          {toggleOn === 'click' && backdrop && (
             <div
-              className={`cpopup-background ${backgroundClassName || 'default'} ${open && 'active'}`}
+              className={`cpopup-backdrop ${backdropClassName || 'default'} ${open && 'active'}`}
               onClick={togglePopup}
               role="button"
               aria-hidden="true"
