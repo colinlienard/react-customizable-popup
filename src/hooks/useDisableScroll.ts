@@ -1,19 +1,19 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useRef } from 'react';
 
 const useDisableScroll = () => {
-  const [position, setPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
+  const position = useRef(0);
 
   const scrollToCurrentPos = useCallback(() => {
-    window.scrollTo(position.x, position.y);
-  }, []);
+    window.scrollTo(0, position.current);
+  }, [position]);
 
   const enableScroll = () => {
-    window.removeEventListener('scroll', scrollToCurrentPos, true);
+    window.removeEventListener('scroll', scrollToCurrentPos);
   };
 
   const disableScroll = () => {
-    setPosition({ x: window.scrollX, y: window.scrollY });
-    window.addEventListener('scroll', scrollToCurrentPos, true);
+    position.current = window.scrollY;
+    window.addEventListener('scroll', scrollToCurrentPos);
   };
 
   return [enableScroll, disableScroll];

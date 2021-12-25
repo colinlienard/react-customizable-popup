@@ -16,10 +16,14 @@ export default [
         file: packageJson.main,
         format: 'cjs',
         exports: 'default',
+        banner: '/* banner */',
+        footer: '/* footer */',
       },
       {
         file: packageJson.module,
         format: 'esm',
+        banner: '/* banner */',
+        footer: '/* footer */',
       },
     ],
     plugins: [
@@ -31,11 +35,15 @@ export default [
         filterRoot: './src',
       }),
       postcss(),
-      terser(),
+      terser({
+        format: {
+          comments: false,
+        },
+      }),
     ],
   },
   {
-    input: 'dist/esm/types/index.d.ts',
+    input: 'src/index.tsx',
     output: [{
       file: 'dist/index.d.ts',
       format: 'esm',

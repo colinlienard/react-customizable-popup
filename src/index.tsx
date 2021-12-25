@@ -19,16 +19,18 @@ export type Props = {
     'center' | 'top' | 'midtop' | 'bottom' | 'midbottom',
   ],
   toggleOn?: 'click' | 'hover',
-  background?: boolean,
+  backdrop?: boolean,
   noScroll?: boolean,
   className?: string,
-  backgroundClassName?: string,
-  distanceFromEdges?: number,
+  backdropClassName?: string,
   distanceFromToggler?: number,
+  // distanceFromEdges?: number,
   fixed?: boolean,
   arrow?: boolean,
   arrowSize?: number,
   root?: string,
+  onOpen?: () => void,
+  onClose?: () => void,
 }
 
 const Popup: FC<Props> = ({
@@ -36,21 +38,22 @@ const Popup: FC<Props> = ({
   toggler,
   position = ['center', 'bottom'],
   toggleOn = 'click',
-  background = true,
+  backdrop = true,
   noScroll = true,
   className,
-  backgroundClassName,
-  /* eslint-disable-next-line no-unused-vars */
-  distanceFromEdges = 0,
+  backdropClassName,
+  // distanceFromEdges = 0,
   distanceFromToggler = 12,
   fixed = false,
   arrow = true,
   arrowSize = 12,
   root = '#root',
+  onOpen,
+  onClose,
 }) => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [pos, setPos] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
-  const [arrowPos, setArrowPos] = useState<{ top: string, left: string }>({ top: '', left: '' });
+  const [open, setOpen] = useState(false);
+  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const [arrowPos, setArrowPos] = useState({ top: '', left: '' });
   const [enableScroll, disableScroll] = useDisableScroll();
 
   const popupRef = useRef<HTMLDivElement>(null);
@@ -155,14 +158,55 @@ const Popup: FC<Props> = ({
     }
   };
 
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      getPosition();
+  const openPopup = () => {
+    setOpen(true);
+    if (onOpen) {
+      onOpen();
+    }
+  };
+
+  const closePopup = () => {
+    setOpen(false);
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const togglePopup = () => {
+    setOpen((state) => {
+      if (state && onClose) {
+        onClose();
+      } else if (onOpen) {
+        onOpen();
+      }
+      return !state;
     });
+  };
+
+  const handleEchapKey = (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && open) {
+      closePopup();
+    }
+  };
+
+  useEffect(() => {
+    getPosition();
+
+    window.addEventListener('resize', getPosition);
 
     document.querySelectorAll('[data-close]').forEach((closeElement) => {
-      closeElement.addEventListener('click', () => setOpen(false));
+      closeElement.addEventListener('click', closePopup);
     });
+
+    return () => {
+      window.removeEventListener('resize', getPosition);
+
+      document.querySelectorAll('[data-close]').forEach((closeElement) => {
+        closeElement.removeEventListener('click', closePopup);
+      });
+
+      enableScroll();
+    };
   }, []);
 
   useEffect(() => {
@@ -171,16 +215,16 @@ const Popup: FC<Props> = ({
       if (noScroll && !fixed) {
         disableScroll();
       }
-    } else {
+    } else if (noScroll && !fixed) {
       enableScroll();
     }
+
+    window.addEventListener('keydown', handleEchapKey);
+
+    return () => {
+      window.removeEventListener('keydown', handleEchapKey);
+    };
   }, [open]);
-
-  const openPopup = () => setOpen(true);
-
-  const closePopup = () => setOpen(false);
-
-  const togglePopup = () => setOpen((state) => !state);
 
   return (
     <>
@@ -216,9 +260,9 @@ const Popup: FC<Props> = ({
             )}
             {children}
           </div>
-          {toggleOn === 'click' && background && (
+          {toggleOn === 'click' && backdrop && (
             <div
-              className={`cpopup-background ${backgroundClassName || 'default'} ${open && 'active'}`}
+              className={`cpopup-backdrop ${backdropClassName || 'default'} ${open && 'active'}`}
               onClick={togglePopup}
               role="button"
               aria-hidden="true"
