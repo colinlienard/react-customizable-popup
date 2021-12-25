@@ -30,7 +30,8 @@ A simple and easy to use react library to create [fully customizable](#-document
     - [`className`](#classname)
     - [`backdropClassName`](#backdropclassname)
     - [`distanceFromToggler`](#distancefromtoggler)
-    - [`distanceFromEdges`](#distancefromedges)
+    - [`onOpen`](#onopen)
+    - [`onClose`](#onclose)
   - [Styling](#styling)
     - [Applying styles](#applying-styles)
     - [Applying animations](#applying-animations)
@@ -269,41 +270,57 @@ The class(es) to apply to the popup backdrop.
 
 The distance from the popup to the toggler in pixels.
 
-#### `distanceFromEdges`
+#### `onOpen`
 
 > Required: **no**
 >
-> Type: **number**
+> Type: **() => void**
 >
-> Default value: `0`
+> Default value: none
 
-The distance from the popup to the edges of the screen.
+A function that runs at the opening of the popup.
 
-If the popup is too large and overflows from one side of the screen, its position will be adjusted so that the popup does not overflow. This prop corresponds to the minimum distance the popup will have from the edges of the screen so that it will not stick to it.
+#### `onClose`
+
+> Required: **no**
+>
+> Type: **() => void**
+>
+> Default value: none
+
+A function that runs at the closing of the popup.
 
 ### Styling
 
 #### Applying styles
 
-Styles are set by default and you can keep them if you want, but you can also delete them and set your own. To do this, add the [`className`](#classname) prop (and/or the [`backdropClassName`](#backdropclassname) prop) and simply customize your popup with css.
+Styles are set by default and you can keep them if you want, but you can also delete them and set your own. To do this, add the [`className`](#classname) prop (and/or the [`backdropClassName`](#backdropclassname) prop) and simply customize your popup (and/or your backdrop) with css.
 
 The [`arrow`](#arrow) will inherit the backdrop and border styles from your popup, so you don't have to worry about it. If you want to change its size, look at the [`arrowSize`](#arrowsize) prop.
 
-By adding the [`className`](#classname) prop, the [`backdrop`](#backdrop) styles will also be removed. To add new ones, you need to use the `cpopup-backdrop` class.
-
 #### Applying animations
 
-The animations are simply css transitions because the popup is never removed from the DOM. To set different animations at the opening and closing of the popup, you can use the `open` class over your own class.
+The animations are simply css transitions because **the popup is never removed from the DOM**. The popup is actually hidden by setting `opacity` to `0`. To set animations (and different transitions at the opening and closing of the popup), you can use the `open` class over your own class.
 
 ```css
 .my-popup-class {
   /* The closing animation */
-  transition: 0.1s ease-in;
+  transform: translateY(1rem);
+  transition: transform 0.1s ease-in, opacity 0.1s ease-in;
 }
 
 .my-popup-class.open {
   /* The opening animation */
-  transition: 0.3s ease-out;
+  transform: translateY(0);
+  transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+```
+
+⚠️ If you are using [css modules](https://github.com/css-modules/css-modules), you must use the `:global` selector on the `open` class.
+
+```css
+.my-popup-class:global(.open) {
+  /* ... */
 }
 ```
 
