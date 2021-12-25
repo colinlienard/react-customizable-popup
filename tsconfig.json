@@ -6,13 +6,10 @@
     "strict": true, 
     "skipLibCheck": true,
     "jsx": "react", 
-    "module": "ESNext",  
-    "declaration": true,
-    "declarationDir": "types",
+    "module": "ESNext",
     "sourceMap": true,
     "outDir": "dist",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "emitDeclarationOnly": true,
+    "allowSyntheticDefaultImports": true
   }
 }
