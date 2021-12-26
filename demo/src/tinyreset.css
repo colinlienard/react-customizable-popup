@@ -1,0 +1,87 @@
+/*
+  tinyreset.css • v1.0.0
+  MIT License
+  https://github.com/ColinLienard/tinyreset.css
+*/
+
+/* Remove margin and padding for all elements */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Apply better box-sizing for all elements */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*
+  1. Body takes at least all the space in the screen
+  2. Set fonts to default
+*/
+body {
+  /* 1 */
+  min-height: 100vh;
+  /* 2 */
+  font-size: 100%;
+  line-height: 1;
+}
+
+/* Apply regular font weight on headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+/* Apply regular styles for links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Apply regular styles for buttons and inputs */
+button,
+input,
+select,
+textarea {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+}
+
+/* Apply the pointer cursor for all buttons */
+button,
+input[type=button],
+input[type=reset],
+input[type=submit] {
+  cursor: pointer;
+}
+
+/* Make images and videos easier to work with */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Remove list style */
+ol,
+ul {
+  list-style: none;
+}
+
+/* Apply regular styles for strong */
+strong {
+  font-weight: inherit;
+}
