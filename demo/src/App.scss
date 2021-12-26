@@ -133,10 +133,10 @@ main {
   }
 }
 
-.custom-background-popup {
+.custom-backdrop-popup {
   transition: 1s ease-in-out;
 
-  &.active {
+  &.open {
     background-color: rgba(coral, .5);
   }
 }

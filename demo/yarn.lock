@@ -670,10 +670,10 @@ postcss@^8.3.11:
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
 
-react-customizable-popup@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-customizable-popup/-/react-customizable-popup-1.1.0.tgz#42373f22c5579298e21f72542c2dd7c5dcf4972e"
-  integrity sha512-9ms/T5HEcG2aFwcwI88hbHxnpnVnRxrNvxRaaVrBUAwfptu+/kUgOJPDWn6o7HZJYR1YW7PAn9CIwHE3K9mqPg==
+react-customizable-popup@1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/react-customizable-popup/-/react-customizable-popup-1.1.1.tgz#38b14eb438cfa9c1d5e1280b54d42e913d117718"
+  integrity sha512-a++lnGj812uwYirLdGI2EW0lApL8x7AZkRp+8XzSl7D8EAJ4kxLTsJK2pMXhl4nQ92eDUME/V70pxH1mjc2Rfg==
 
 react-dom@^17.0.2:
   version "17.0.2"

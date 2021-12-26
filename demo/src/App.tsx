@@ -110,17 +110,17 @@ const App = () => {
           </Popup>
         </section>
         <section>
-          <h2>No background</h2>
+          <h2>No backdrop</h2>
           <Popup
             toggler={
               <button className="button" type="button">Click me</button>
             }
-            background={false}
+            backdrop={false}
           >
             <button className="cross" type="button" data-close>
               <img src={cross} alt="" />
             </button>
-            <p>This popup has no background.</p>
+            <p>This popup has no backdrop.</p>
           </Popup>
         </section>
         <section>
@@ -130,7 +130,7 @@ const App = () => {
               <button className="button" type="button">Click me</button>
             }
             className="custom-popup"
-            backgroundClassName="custom-background-popup"
+            backdropClassName="custom-backdrop-popup"
             arrowSize={20}
             position={['center', 'top']}
             distanceFromToggler={40}
