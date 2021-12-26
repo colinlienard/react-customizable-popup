@@ -1,6 +1,6 @@
 <div align="center">
 
-# 💬 react-customizable-popup
+# 💬 [react-customizable-popup](https://react-customizable-popup.vercel.app/)
 
 [![NPM version](https://img.shields.io/npm/v/react-customizable-popup)](https://www.npmjs.com/package/react-customizable-popup) ![NPM size](https://img.shields.io/bundlephobia/min/react-customizable-popup?label=size&color=ff69b4) [![MIT License](https://img.shields.io/github/license/ColinLienard/react-customizable-popup?color=brightgreen)](LICENSE)
 
@@ -47,7 +47,7 @@ A simple and easy to use react library to create [fully customizable](#-document
 
 ## 🔎 Example
 
-Demo coming soon.
+See the [demo](https://react-customizable-popup.vercel.app/).
 
 ```jsx
 import Popup from 'react-customizable-popup';
