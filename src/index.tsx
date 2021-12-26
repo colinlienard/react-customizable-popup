@@ -105,37 +105,41 @@ const Popup: FC<Props> = ({
         }
       }
 
+      const togglerTopRelativeToViewport = fixed
+        ? togglerRef.current?.getBoundingClientRect().top
+        : togglerRef.current?.offsetTop;
+
       switch (position[1]) {
         case 'center': {
-          top = togglerRef.current.offsetTop
+          top = togglerTopRelativeToViewport
             + togglerRef.current.offsetHeight / 2
             - popupRef.current.offsetHeight / 2;
           arrowTop = '50%';
           break;
         }
         case 'top': {
-          top = togglerRef.current.offsetTop
+          top = togglerTopRelativeToViewport
             - popupRef.current.offsetHeight
             - distanceFromToggler;
           arrowTop = '100%';
           break;
         }
         case 'midtop': {
-          top = togglerRef.current.offsetTop
+          top = togglerTopRelativeToViewport
             + togglerRef.current.offsetHeight
             - popupRef.current.offsetHeight;
           arrowTop = `${popupRef.current.offsetHeight - arrowSize * 2}px`;
           break;
         }
         case 'bottom': {
-          top = togglerRef.current.offsetTop
+          top = togglerTopRelativeToViewport
             + togglerRef.current.offsetHeight
             + distanceFromToggler;
           arrowTop = `-${arrowSize + 1}px`;
           break;
         }
         case 'midbottom': {
-          top = togglerRef.current.offsetTop;
+          top = togglerTopRelativeToViewport;
           arrowTop = `${arrowSize * 2}px`;
           break;
         }
@@ -262,7 +266,7 @@ const Popup: FC<Props> = ({
           </div>
           {toggleOn === 'click' && backdrop && (
             <div
-              className={`cpopup-backdrop ${backdropClassName || 'default'} ${open && 'active'}`}
+              className={`cpopup-backdrop ${backdropClassName || 'default'} ${open && 'open'}`}
               onClick={togglePopup}
               role="button"
               aria-hidden="true"

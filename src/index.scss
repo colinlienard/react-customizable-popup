@@ -20,11 +20,11 @@
     border: 1px solid #cacaca;
     box-shadow: 0 1rem 2rem rgba(black, .05);
     transform: scale(.8) translateY(-1rem);
-    transition: .1s ease-in;
+    transition: transform .1s ease-in, opacity .1s ease-in;
 
     &.open {
       transform: none;
-      transition: .3s cubic-bezier(0, .5, .5, 1.5);
+      transition: transform .3s cubic-bezier(0, .5, .5, 1.5), opacity .3s cubic-bezier(0, .5, .5, 1.5);
     }
   }
 }
@@ -55,7 +55,7 @@
   }
 }
 
-.cpopup-background {
+.cpopup-backdrop {
   z-index: 998;
   position: fixed;
   top: 0;
@@ -64,7 +64,7 @@
   height: 100%;
   pointer-events: none;
 
-  &.active {
+  &.open {
     pointer-events: all;
   }
 
@@ -73,7 +73,7 @@
     opacity: 0;
     transition: opacity .3s ease-in-out;
 
-    &.active {
+    &.open {
       opacity: 1;
     }
   }

@@ -202,6 +202,8 @@ If the popup remains fixed at its opening position at scroll.
 
 ⚠️ If this prop is set to `true`, the prop [`noScroll`](#noscroll) will be set to `false`.
 
+⚠️ If your toggler is located in a fixed area, for example a navigation bar, make sure to set this prop to `true`.
+
 #### `arrow`
 
 > Required: **no**
