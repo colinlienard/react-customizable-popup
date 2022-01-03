@@ -32,6 +32,7 @@ export type Props = {
   onOpen?: () => void,
   onClose?: () => void,
   portal?: boolean,
+  modal?: boolean,
 };
 
 const Popup: FC<Props> = ({
@@ -52,6 +53,7 @@ const Popup: FC<Props> = ({
   onOpen,
   onClose,
   portal = true,
+  modal = false,
 }) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
@@ -63,104 +65,113 @@ const Popup: FC<Props> = ({
 
   const getPosition = () => {
     if (popupRef.current && togglerRef.current) {
-      let top = 0;
-      let left = 0;
-      let arrowTop = '';
-      let arrowLeft = '';
+      if (modal) {
+        const top = window.innerHeight / 2
+          - popupRef.current.offsetHeight / 2;
+        const left = window.innerWidth / 2
+          - popupRef.current.offsetWidth / 2;
 
-      switch (position[0]) {
-        case 'center': {
-          left = togglerRef.current.offsetLeft
-            + togglerRef.current.offsetWidth / 2
-            - popupRef.current.offsetWidth / 2;
-          arrowLeft = '50%';
-          break;
+        setPos({ top, left });
+      } else {
+        let top = 0;
+        let left = 0;
+        let arrowTop = '';
+        let arrowLeft = '';
+
+        switch (position[0]) {
+          case 'center': {
+            left = togglerRef.current.offsetLeft
+              + togglerRef.current.offsetWidth / 2
+              - popupRef.current.offsetWidth / 2;
+            arrowLeft = '50%';
+            break;
+          }
+          case 'left': {
+            left = togglerRef.current.offsetLeft
+              - popupRef.current.offsetWidth
+              - distanceFromToggler;
+            arrowLeft = '100%';
+            break;
+          }
+          case 'midleft': {
+            left = togglerRef.current.offsetLeft
+              + togglerRef.current.offsetWidth
+              - popupRef.current.offsetWidth;
+            arrowLeft = `${popupRef.current.offsetWidth - arrowSize * 2}px`;
+            break;
+          }
+          case 'right': {
+            left = togglerRef.current.offsetLeft
+              + togglerRef.current.offsetWidth
+              + distanceFromToggler;
+            arrowLeft = `-${arrowSize + 1}px`;
+            break;
+          }
+          case 'midright': {
+            left = togglerRef.current.offsetLeft;
+            arrowLeft = `${arrowSize * 2}px`;
+            break;
+          }
+          default: {
+            throw new Error('Position on the horizontal axis : wrong value provided.');
+          }
         }
-        case 'left': {
-          left = togglerRef.current.offsetLeft
-            - popupRef.current.offsetWidth
-            - distanceFromToggler;
-          arrowLeft = '100%';
-          break;
+
+        const togglerTopRelativeToViewport = fixed
+          ? togglerRef.current?.getBoundingClientRect().top
+          : togglerRef.current?.offsetTop;
+
+        switch (position[1]) {
+          case 'center': {
+            top = togglerTopRelativeToViewport
+              + togglerRef.current.offsetHeight / 2
+              - popupRef.current.offsetHeight / 2;
+            arrowTop = '50%';
+            break;
+          }
+          case 'top': {
+            top = togglerTopRelativeToViewport
+              - popupRef.current.offsetHeight
+              - distanceFromToggler;
+            arrowTop = '100%';
+            break;
+          }
+          case 'midtop': {
+            top = togglerTopRelativeToViewport
+              + togglerRef.current.offsetHeight
+              - popupRef.current.offsetHeight;
+            arrowTop = `${popupRef.current.offsetHeight - arrowSize * 2}px`;
+            break;
+          }
+          case 'bottom': {
+            top = togglerTopRelativeToViewport
+              + togglerRef.current.offsetHeight
+              + distanceFromToggler;
+            arrowTop = `-${arrowSize + 1}px`;
+            break;
+          }
+          case 'midbottom': {
+            top = togglerTopRelativeToViewport;
+            arrowTop = `${arrowSize * 2}px`;
+            break;
+          }
+          default: {
+            throw new Error('Position on the vertical axis : wrong value provided.');
+          }
         }
-        case 'midleft': {
-          left = togglerRef.current.offsetLeft
-            + togglerRef.current.offsetWidth
-            - popupRef.current.offsetWidth;
-          arrowLeft = `${popupRef.current.offsetWidth - arrowSize * 2}px`;
-          break;
+
+        /*
+        WIP: Handle popup not going beyond edges of the screen
+        if (left < distanceFromEdges) {
+          left = distanceFromEdges;
+        } else if (left + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdges) {
+          left -= left + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdges);
         }
-        case 'right': {
-          left = togglerRef.current.offsetLeft
-            + togglerRef.current.offsetWidth
-            + distanceFromToggler;
-          arrowLeft = `-${arrowSize + 1}px`;
-          break;
-        }
-        case 'midright': {
-          left = togglerRef.current.offsetLeft;
-          arrowLeft = `${arrowSize * 2}px`;
-          break;
-        }
-        default: {
-          throw new Error('Position on the horizontal axis : wrong value provided.');
-        }
+        */
+
+        setPos({ top, left });
+        setArrowPos({ top: arrowTop, left: arrowLeft });
       }
-
-      const togglerTopRelativeToViewport = fixed
-        ? togglerRef.current?.getBoundingClientRect().top
-        : togglerRef.current?.offsetTop;
-
-      switch (position[1]) {
-        case 'center': {
-          top = togglerTopRelativeToViewport
-            + togglerRef.current.offsetHeight / 2
-            - popupRef.current.offsetHeight / 2;
-          arrowTop = '50%';
-          break;
-        }
-        case 'top': {
-          top = togglerTopRelativeToViewport
-            - popupRef.current.offsetHeight
-            - distanceFromToggler;
-          arrowTop = '100%';
-          break;
-        }
-        case 'midtop': {
-          top = togglerTopRelativeToViewport
-            + togglerRef.current.offsetHeight
-            - popupRef.current.offsetHeight;
-          arrowTop = `${popupRef.current.offsetHeight - arrowSize * 2}px`;
-          break;
-        }
-        case 'bottom': {
-          top = togglerTopRelativeToViewport
-            + togglerRef.current.offsetHeight
-            + distanceFromToggler;
-          arrowTop = `-${arrowSize + 1}px`;
-          break;
-        }
-        case 'midbottom': {
-          top = togglerTopRelativeToViewport;
-          arrowTop = `${arrowSize * 2}px`;
-          break;
-        }
-        default: {
-          throw new Error('Position on the vertical axis : wrong value provided.');
-        }
-      }
-
-      /*
-      WIP: Handle popup not going beyond edges of the screen
-      if (left < distanceFromEdges) {
-        left = distanceFromEdges;
-      } else if (left + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdges) {
-        left -= left + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdges);
-      }
-      */
-
-      setPos({ top, left });
-      setArrowPos({ top: arrowTop, left: arrowLeft });
     }
   };
 
@@ -235,11 +246,11 @@ const Popup: FC<Props> = ({
   const renderPopup = () => (
     <>
       <div
-        className={`cpopup ${className || 'default'} ${fixed && 'fixed'} ${open && 'open'}`}
+        className={`cpopup ${className || 'default'} ${(fixed || modal) && 'fixed'} ${open && 'open'}`}
         ref={popupRef}
         style={pos}
       >
-        {arrow && (
+        {arrow && !modal && (
           <div
             className={`cpopup-arrow ${position[0]} ${position[1]}`}
             style={{
