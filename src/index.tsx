@@ -31,7 +31,8 @@ export type Props = {
   root?: string,
   onOpen?: () => void,
   onClose?: () => void,
-}
+  portal?: boolean,
+};
 
 const Popup: FC<Props> = ({
   children,
@@ -50,6 +51,7 @@ const Popup: FC<Props> = ({
   root = '#root',
   onOpen,
   onClose,
+  portal = true,
 }) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState({ top: 0, left: 0 });
@@ -230,6 +232,36 @@ const Popup: FC<Props> = ({
     };
   }, [open]);
 
+  const renderPopup = () => (
+    <>
+      <div
+        className={`cpopup ${className || 'default'} ${fixed && 'fixed'} ${open && 'open'}`}
+        ref={popupRef}
+        style={pos}
+      >
+        {arrow && (
+          <div
+            className={`cpopup-arrow ${position[0]} ${position[1]}`}
+            style={{
+              ...arrowPos,
+              width: `${arrowSize}px`,
+              height: `${arrowSize}px`,
+            }}
+          />
+        )}
+        {children}
+      </div>
+      {toggleOn === 'click' && backdrop && (
+        <div
+          className={`cpopup-backdrop ${backdropClassName || 'default'} ${open && 'open'}`}
+          onClick={togglePopup}
+          role="button"
+          aria-hidden="true"
+        />
+      )}
+    </>
+  );
+
   return (
     <>
       {cloneElement(
@@ -245,36 +277,12 @@ const Popup: FC<Props> = ({
             ref: togglerRef,
           },
       )}
-      {createPortal(
-        <>
-          <div
-            className={`cpopup ${className || 'default'} ${fixed && 'fixed'} ${open && 'open'}`}
-            ref={popupRef}
-            style={pos}
-          >
-            {arrow && (
-              <div
-                className={`cpopup-arrow ${position[0]} ${position[1]}`}
-                style={{
-                  ...arrowPos,
-                  width: `${arrowSize}px`,
-                  height: `${arrowSize}px`,
-                }}
-              />
-            )}
-            {children}
-          </div>
-          {toggleOn === 'click' && backdrop && (
-            <div
-              className={`cpopup-backdrop ${backdropClassName || 'default'} ${open && 'open'}`}
-              onClick={togglePopup}
-              role="button"
-              aria-hidden="true"
-            />
-          )}
-        </>,
-        document.querySelector(root) as Element,
-      )}
+      {portal
+        ? createPortal(
+          renderPopup(),
+          document.querySelector(root) as Element,
+        )
+        : renderPopup()}
     </>
   );
 };
