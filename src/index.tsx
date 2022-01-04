@@ -24,7 +24,7 @@ export type Props = {
   className?: string,
   backdropClassName?: string,
   distanceFromToggler?: number,
-  // distanceFromEdges?: number,
+  distanceFromEdges?: number,
   fixed?: boolean,
   arrow?: boolean,
   arrowSize?: number,
@@ -44,7 +44,7 @@ const Popup: FC<Props> = ({
   noScroll = true,
   className,
   backdropClassName,
-  // distanceFromEdges = 0,
+  distanceFromEdges = 0,
   distanceFromToggler = 12,
   fixed = false,
   arrow = true,
@@ -56,7 +56,7 @@ const Popup: FC<Props> = ({
   modal = false,
 }) => {
   const [open, setOpen] = useState(false);
-  const [pos, setPos] = useState({ top: 0, left: 0 });
+  const [pos, setPos] = useState<{ top: number, left: number, maxWidth: string | number }>({ top: 0, left: 0, maxWidth: 'auto' });
   const [arrowPos, setArrowPos] = useState({ top: '', left: '' });
   const [enableScroll, disableScroll] = useDisableScroll();
 
@@ -71,7 +71,9 @@ const Popup: FC<Props> = ({
         const left = window.innerWidth / 2
           - popupRef.current.offsetWidth / 2;
 
-        setPos({ top, left });
+        const maxWidth = popupRef.current.offsetWidth > window.innerWidth ? window.innerWidth - (distanceFromEdges * 2) : 'auto';
+
+        setPos({ top, left, maxWidth });
       } else {
         let top = 0;
         let left = 0;
@@ -160,16 +162,15 @@ const Popup: FC<Props> = ({
           }
         }
 
-        /*
-        WIP: Handle popup not going beyond edges of the screen
+        let maxWidth: string | number = 'auto';
         if (left < distanceFromEdges) {
+          maxWidth = popupRef.current.offsetWidth - Math.abs(left) - distanceFromEdges;
           left = distanceFromEdges;
         } else if (left + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdges) {
-          left -= left + popupRef.current.offsetWidth - (window.innerWidth - distanceFromEdges);
+          maxWidth = popupRef.current.offsetWidth - window.innerWidth - distanceFromEdges;
         }
-        */
 
-        setPos({ top, left });
+        setPos({ top, left, maxWidth });
         setArrowPos({ top: arrowTop, left: arrowLeft });
       }
     }
