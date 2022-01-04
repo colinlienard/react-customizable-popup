@@ -22,6 +22,7 @@ A simple and easy to use react library to create [fully customizable](#-document
     - [`toggler`](#toggler)
     - [`toggleOn`](#toggleon)
     - [`position`](#position)
+    - [`modal`](#modal)
     - [`noScroll`](#noscroll)
     - [`fixed`](#fixed)
     - [`arrow`](#arrow)
@@ -30,6 +31,8 @@ A simple and easy to use react library to create [fully customizable](#-document
     - [`className`](#classname)
     - [`backdropClassName`](#backdropclassname)
     - [`distanceFromToggler`](#distancefromtoggler)
+    - [`distanceFromEdges`](#distancefromedges)
+    - [`portal`](#portal)
     - [`onOpen`](#onopen)
     - [`onClose`](#onclose)
   - [Styling](#styling)
@@ -134,7 +137,7 @@ Here are listed all the props you can use to customize your popup as you wish.
 
 The root of the application.
 
-This prop is quite important depending on the framework you use. The root of the application often has an id equal to `root`, but not all the time. For example, if you are using [Nextjs](https://nextjs.org/), this prop should take the value `#next`.
+This prop is quite important depending on the framework you use. The root of the application often has an id equal to `root`, but not all the time. For example, if you are using [Nextjs](https://nextjs.org/), this prop should take the value `#__next`.
 
 #### `toggler`
 
@@ -177,6 +180,18 @@ The popup will open either when the toggler is clicked or when the mouse hovers 
 The position of the popup in relation to the toggler.
 
 The first value in the array corresponds to the horizontal axis, and the second corresponds to the vertical axis. Values starting with `mid` place the popup on an edge of the toggler and make it go beyond the other edge. To understand it better, look at the [demo]().
+
+#### `modal`
+
+> Required: **no**
+>
+> Type: **boolean**
+>
+> Default value: `false`
+
+If the popup is positionned at the center of the screen.
+
+⚠️ When this prop is set to `true`, the value of the [`position`](#position) prop is ignored and the [`fixed`](#fixed) prop is set to `true`.
 
 #### `noScroll`
 
@@ -271,6 +286,28 @@ The class(es) to apply to the popup backdrop.
 > Default value: `12`
 
 The distance from the popup to the toggler in pixels.
+
+#### `distanceFromEdges`
+
+> Required: **no**
+>
+> Type: **number**
+>
+> Default value: `0`
+
+The distance from the popup to the edges of the screen.
+
+If the popup is too large and overflows from one side of the screen, its position will be adjusted so that the popup does not overflow. This property corresponds to the minimum distance the popup will have from the edges of the screen so that it will not stick to it.
+
+#### `portal`
+
+> Required: **no**
+>
+> Type: **boolean**
+>
+> Default value: `true`
+
+If the popup component is rendered with a [react portal](https://fr.reactjs.org/docs/portals.html) at the [`root`](#root) of the application.
 
 #### `onOpen`
 
