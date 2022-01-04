@@ -177,6 +177,7 @@ const Popup: FC<Props> = ({
   };
 
   const openPopup = () => {
+    getPosition();
     setOpen(true);
     if (onOpen) {
       onOpen();
@@ -194,8 +195,11 @@ const Popup: FC<Props> = ({
     setOpen((state) => {
       if (state && onClose) {
         onClose();
-      } else if (onOpen) {
-        onOpen();
+      } else {
+        getPosition();
+        if (onOpen) {
+          onOpen();
+        }
       }
       return !state;
     });
@@ -228,13 +232,12 @@ const Popup: FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (open) {
-      getPosition();
-      if (noScroll && !fixed) {
+    if (noScroll && !fixed) {
+      if (open) {
         disableScroll();
+      } else {
+        enableScroll();
       }
-    } else if (noScroll && !fixed) {
-      enableScroll();
     }
 
     window.addEventListener('keydown', handleEchapKey);
@@ -266,7 +269,7 @@ const Popup: FC<Props> = ({
       {toggleOn === 'click' && backdrop && (
         <div
           className={`cpopup-backdrop ${backdropClassName || 'default'} ${open && 'open'}`}
-          onClick={togglePopup}
+          onClick={closePopup}
           role="button"
           aria-hidden="true"
         />
