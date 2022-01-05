@@ -293,10 +293,10 @@ const Popup: FC<Props> = ({
           },
       )}
       {portal
-        ? createPortal(
+        ? (document.querySelector(root) && createPortal(
           renderPopup(),
           document.querySelector(root) as Element,
-        )
+        ))
         : renderPopup()}
     </>
   );
