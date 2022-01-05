@@ -62,6 +62,7 @@ const Popup: FC<Props> = ({
 
   const popupRef = useRef<HTMLDivElement>(null);
   const togglerRef = useRef<HTMLElement>(null);
+  const mouseOnPopup = useRef(false);
 
   const getPosition = () => {
     if (popupRef.current && togglerRef.current) {
@@ -179,6 +180,7 @@ const Popup: FC<Props> = ({
   const openPopup = () => {
     getPosition();
     setOpen(true);
+    mouseOnPopup.current = true;
     if (onOpen) {
       onOpen();
     }
@@ -186,6 +188,7 @@ const Popup: FC<Props> = ({
 
   const closePopup = () => {
     setOpen(false);
+    mouseOnPopup.current = false;
     if (onClose) {
       onClose();
     }
@@ -194,8 +197,10 @@ const Popup: FC<Props> = ({
   const togglePopup = () => {
     setOpen((state) => {
       if (state && onClose) {
+        mouseOnPopup.current = false;
         onClose();
       } else {
+        mouseOnPopup.current = true;
         getPosition();
         if (onOpen) {
           onOpen();
@@ -209,6 +214,19 @@ const Popup: FC<Props> = ({
     if (event.key === 'Escape' && open) {
       closePopup();
     }
+  };
+
+  const setMouseOnPopup = (value: boolean) => {
+    mouseOnPopup.current = value;
+  };
+
+  const handleMouseLeave = () => {
+    setMouseOnPopup(false);
+    setTimeout(() => {
+      if (!mouseOnPopup.current) {
+        closePopup();
+      }
+    }, 300);
   };
 
   useEffect(() => {
@@ -253,7 +271,8 @@ const Popup: FC<Props> = ({
         className={`cpopup ${className || 'default'} ${(fixed || modal) && 'fixed'} ${open && 'open'}`}
         ref={popupRef}
         style={pos}
-        onMouseLeave={toggleOn === 'hover' ? closePopup : () => null}
+        onMouseEnter={toggleOn === 'hover' ? () => setMouseOnPopup(true) : () => null}
+        onMouseLeave={toggleOn === 'hover' ? handleMouseLeave : () => null}
       >
         {arrow && !modal && (
           <div
@@ -289,6 +308,7 @@ const Popup: FC<Props> = ({
           }
           : {
             onMouseEnter: openPopup,
+            onMouseLeave: handleMouseLeave,
             ref: togglerRef,
           },
       )}
