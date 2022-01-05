@@ -253,6 +253,7 @@ const Popup: FC<Props> = ({
         className={`cpopup ${className || 'default'} ${(fixed || modal) && 'fixed'} ${open && 'open'}`}
         ref={popupRef}
         style={pos}
+        onMouseLeave={toggleOn === 'hover' ? closePopup : () => null}
       >
         {arrow && !modal && (
           <div
@@ -288,15 +289,14 @@ const Popup: FC<Props> = ({
           }
           : {
             onMouseEnter: openPopup,
-            onMouseLeave: closePopup,
             ref: togglerRef,
           },
       )}
       {portal
-        ? (document.querySelector(root) && createPortal(
+        ? document.querySelector(root) && createPortal(
           renderPopup(),
           document.querySelector(root) as Element,
-        ))
+        )
         : renderPopup()}
     </>
   );
