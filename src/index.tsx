@@ -58,6 +58,7 @@ const Popup: FC<Props> = ({
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number, left: number, maxWidth: string | number }>({ top: 0, left: 0, maxWidth: 'auto' });
   const [arrowPos, setArrowPos] = useState({ top: '', left: '' });
+  const [mounted, setMounted] = useState(false);
   const [enableScroll, disableScroll] = useDisableScroll();
 
   const popupRef = useRef<HTMLDivElement>(null);
@@ -230,20 +231,25 @@ const Popup: FC<Props> = ({
   };
 
   useEffect(() => {
+    /* Create the portal then select elements */
+    (async () => {
+      await setMounted(true);
+
+      document.querySelectorAll('[data-close]').forEach((closeElement) => {
+        closeElement.addEventListener('click', closePopup);
+      });
+    })();
+
     getPosition();
 
     window.addEventListener('resize', getPosition);
 
-    document.querySelectorAll('[data-close]').forEach((closeElement) => {
-      closeElement.addEventListener('click', closePopup);
-    });
-
     return () => {
-      window.removeEventListener('resize', getPosition);
-
       document.querySelectorAll('[data-close]').forEach((closeElement) => {
         closeElement.removeEventListener('click', closePopup);
       });
+
+      window.removeEventListener('resize', getPosition);
 
       enableScroll();
     };
@@ -313,7 +319,7 @@ const Popup: FC<Props> = ({
           },
       )}
       {portal
-        ? document.querySelector(root) && createPortal(
+        ? mounted && createPortal(
           renderPopup(),
           document.querySelector(root) as Element,
         )
