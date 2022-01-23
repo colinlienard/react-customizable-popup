@@ -108,7 +108,7 @@ const Popup: FC<Props> = ({
           }
           case 'right': {
             left = togglerLeft + togglerWidth + distanceFromToggler;
-            arrowLeft = `-${arrowSize + 1}px`;
+            arrowLeft = `-${arrowSize}px`;
             break;
           }
           case 'midright': {
@@ -139,7 +139,7 @@ const Popup: FC<Props> = ({
           }
           case 'bottom': {
             top = togglerTop + togglerHeight + distanceFromToggler;
-            arrowTop = `-${arrowSize + 1}px`;
+            arrowTop = `-${arrowSize}px`;
             break;
           }
           case 'midbottom': {
