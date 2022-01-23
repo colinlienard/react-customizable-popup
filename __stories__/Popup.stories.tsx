@@ -12,16 +12,69 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<Props> = (args) => (
-  <Popup
-    {...args}
-    toggler={
-      <button type="button" style={{ marginLeft: '50%' }}>Toggler</button>
-    }
+  <div
+    style={{
+      height: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
   >
-    <button type="button" data-close>Close</button>
-    <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, magnam?</div>
-  </Popup>
+    <Popup
+      {...args}
+      toggler={(
+        <button type="button">Toggler</button>
+      )}
+    >
+      <button type="button" data-close>Close</button>
+      <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, magnam?</div>
+    </Popup>
+  </div>
 );
 
 export const Default = Template.bind({});
-Default.args = {};
+
+export const PosTop = Template.bind({});
+PosTop.args = {
+  position: ['midleft', 'top'],
+};
+
+export const PosLeft = Template.bind({});
+PosLeft.args = {
+  position: ['left', 'midbottom'],
+};
+
+export const PosRight = Template.bind({});
+PosRight.args = {
+  position: ['right', 'center'],
+};
+
+export const Modal = Template.bind({});
+Modal.args = {
+  modal: true,
+};
+
+export const Hover = Template.bind({});
+Hover.args = {
+  toggleOn: 'hover',
+};
+
+export const Fixed = Template.bind({});
+Fixed.args = {
+  fixed: true,
+};
+
+export const NoBackdrop = Template.bind({});
+NoBackdrop.args = {
+  backdrop: false,
+};
+
+export const NoArrow = Template.bind({});
+NoArrow.args = {
+  arrow: false,
+};
+
+export const BigArrow = Template.bind({});
+BigArrow.args = {
+  arrowSize: 20,
+};
