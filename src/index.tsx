@@ -67,13 +67,21 @@ const Popup: FC<Props> = ({
 
   const getPosition = () => {
     if (popupRef.current && togglerRef.current) {
-      if (modal) {
-        const top = window.innerHeight / 2
-          - popupRef.current.offsetHeight / 2;
-        const left = window.innerWidth / 2
-          - popupRef.current.offsetWidth / 2;
+      const {
+        top: togglerTop,
+        left: togglerLeft,
+        width: togglerWidth,
+        height: togglerHeight,
+      } = togglerRef.current.getBoundingClientRect();
 
-        const maxWidth = popupRef.current.offsetWidth > window.innerWidth ? window.innerWidth - (distanceFromEdges * 2) : 'auto';
+      const popupWidth = popupRef.current.offsetWidth;
+      const popupHeight = popupRef.current.offsetHeight;
+
+      if (modal) {
+        const top = window.innerHeight / 2 - popupHeight / 2;
+        const left = window.innerWidth / 2 - popupWidth / 2;
+
+        const maxWidth = popupWidth > window.innerWidth ? window.innerWidth - (distanceFromEdges * 2) : 'auto';
 
         setPos({ top, left, maxWidth });
       } else {
@@ -84,35 +92,27 @@ const Popup: FC<Props> = ({
 
         switch (position[0]) {
           case 'center': {
-            left = togglerRef.current.offsetLeft
-              + togglerRef.current.offsetWidth / 2
-              - popupRef.current.offsetWidth / 2;
+            left = togglerLeft + togglerWidth / 2 - popupWidth / 2;
             arrowLeft = '50%';
             break;
           }
           case 'left': {
-            left = togglerRef.current.offsetLeft
-              - popupRef.current.offsetWidth
-              - distanceFromToggler;
+            left = togglerLeft - popupWidth - distanceFromToggler;
             arrowLeft = '100%';
             break;
           }
           case 'midleft': {
-            left = togglerRef.current.offsetLeft
-              + togglerRef.current.offsetWidth
-              - popupRef.current.offsetWidth;
-            arrowLeft = `${popupRef.current.offsetWidth - arrowSize * 2}px`;
+            left = togglerLeft + togglerWidth - popupWidth;
+            arrowLeft = `${popupWidth - arrowSize * 2}px`;
             break;
           }
           case 'right': {
-            left = togglerRef.current.offsetLeft
-              + togglerRef.current.offsetWidth
-              + distanceFromToggler;
-            arrowLeft = `-${arrowSize + 1}px`;
+            left = togglerLeft + togglerWidth + distanceFromToggler;
+            arrowLeft = `-${arrowSize}px`;
             break;
           }
           case 'midright': {
-            left = togglerRef.current.offsetLeft;
+            left = togglerLeft;
             arrowLeft = `${arrowSize * 2}px`;
             break;
           }
@@ -121,41 +121,29 @@ const Popup: FC<Props> = ({
           }
         }
 
-        const togglerTopRelativeToViewport = fixed
-          ? togglerRef.current?.getBoundingClientRect().top
-          : togglerRef.current?.offsetTop;
-
         switch (position[1]) {
           case 'center': {
-            top = togglerTopRelativeToViewport
-              + togglerRef.current.offsetHeight / 2
-              - popupRef.current.offsetHeight / 2;
+            top = togglerTop + togglerHeight / 2 - popupHeight / 2;
             arrowTop = '50%';
             break;
           }
           case 'top': {
-            top = togglerTopRelativeToViewport
-              - popupRef.current.offsetHeight
-              - distanceFromToggler;
+            top = togglerTop - popupHeight - distanceFromToggler;
             arrowTop = '100%';
             break;
           }
           case 'midtop': {
-            top = togglerTopRelativeToViewport
-              + togglerRef.current.offsetHeight
-              - popupRef.current.offsetHeight;
-            arrowTop = `${popupRef.current.offsetHeight - arrowSize * 2}px`;
+            top = togglerTop + togglerHeight - popupHeight;
+            arrowTop = `${popupHeight - arrowSize * 2}px`;
             break;
           }
           case 'bottom': {
-            top = togglerTopRelativeToViewport
-              + togglerRef.current.offsetHeight
-              + distanceFromToggler;
-            arrowTop = `-${arrowSize + 1}px`;
+            top = togglerTop + togglerHeight + distanceFromToggler;
+            arrowTop = `-${arrowSize}px`;
             break;
           }
           case 'midbottom': {
-            top = togglerTopRelativeToViewport;
+            top = togglerTop;
             arrowTop = `${arrowSize * 2}px`;
             break;
           }
@@ -166,10 +154,10 @@ const Popup: FC<Props> = ({
 
         let maxWidth: string | number = 'auto';
         if (left < distanceFromEdges) {
-          maxWidth = popupRef.current.offsetWidth - Math.abs(left) - distanceFromEdges;
+          maxWidth = popupWidth - Math.abs(left) - distanceFromEdges;
           left = distanceFromEdges;
-        } else if (left + popupRef.current.offsetWidth > window.innerWidth - distanceFromEdges) {
-          maxWidth = popupRef.current.offsetWidth - window.innerWidth - distanceFromEdges;
+        } else if (left + popupWidth > window.innerWidth - distanceFromEdges) {
+          maxWidth = popupWidth - window.innerWidth - distanceFromEdges;
         }
 
         setPos({ top, left, maxWidth });
