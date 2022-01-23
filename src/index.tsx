@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 import useDisableScroll from './useDisableScroll';
-import PopupContext, { Context } from './context';
+import PopupProvider, { Context } from './context';
 import './index.scss';
 
 export type Props = {
@@ -321,4 +321,4 @@ const Popup: FC<Props> = ({
 };
 
 export default Popup;
-export { PopupContext };
+export { PopupProvider };

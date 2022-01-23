@@ -10,7 +10,7 @@ type ContextProps = {
   root: string,
 };
 
-const PopupContext: FC<ContextProps> = ({ children, root }) => {
+const PopupProvider: FC<ContextProps> = ({ children, root }) => {
   const value = useMemo(() => ({ root }), []);
 
   return (
@@ -20,4 +20,4 @@ const PopupContext: FC<ContextProps> = ({ children, root }) => {
   );
 };
 
-export default PopupContext;
+export default PopupProvider;
