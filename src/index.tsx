@@ -3,12 +3,14 @@ import React, {
   FC,
   ReactElement,
   ReactNode,
+  useContext,
   useEffect,
   useRef,
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import useDisableScroll from './hooks/useDisableScroll';
+import useDisableScroll from './useDisableScroll';
+import PopupProvider, { Context } from './context';
 import './index.scss';
 
 export type Props = {
@@ -64,6 +66,8 @@ const Popup: FC<Props> = ({
   const popupRef = useRef<HTMLDivElement>(null);
   const togglerRef = useRef<HTMLElement>(null);
   const mouseOnPopup = useRef(false);
+
+  const { root: overallRoot } = useContext(Context);
 
   const getPosition = () => {
     if (popupRef.current && togglerRef.current) {
@@ -309,7 +313,7 @@ const Popup: FC<Props> = ({
       {portal
         ? mounted && createPortal(
           renderPopup(),
-          document.querySelector(root) as Element,
+          document.querySelector(overallRoot || root) as Element,
         )
         : renderPopup()}
     </>
@@ -317,3 +321,4 @@ const Popup: FC<Props> = ({
 };
 
 export default Popup;
+export { PopupProvider };
