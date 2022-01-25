@@ -1,10 +1,11 @@
 import React, {
   cloneElement,
-  FC,
+  forwardRef,
   ReactElement,
   ReactNode,
   useContext,
   useEffect,
+  useImperativeHandle,
   useRef,
   useState,
 } from 'react';
@@ -13,7 +14,13 @@ import useDisableScroll from './useDisableScroll';
 import PopupProvider, { Context } from './context';
 import './index.scss';
 
-export type Props = {
+export type PopupHandle = {
+  open: () => void,
+  close: () => void,
+  toggle: () => void,
+};
+
+export type PopupProps = {
   children: ReactNode,
   toggler: ReactElement,
   position?: [
@@ -37,7 +44,7 @@ export type Props = {
   modal?: boolean,
 };
 
-const Popup: FC<Props> = ({
+const Popup = forwardRef<PopupHandle, PopupProps>(({
   children,
   toggler,
   position = ['center', 'bottom'],
@@ -56,7 +63,7 @@ const Popup: FC<Props> = ({
   onClose,
   portal = true,
   modal = false,
-}) => {
+}, forwardedRef) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number, left: number, maxWidth: string | number }>({ top: 0, left: 0, maxWidth: 'auto' });
   const [arrowPos, setArrowPos] = useState({ top: '', left: '' });
@@ -263,6 +270,12 @@ const Popup: FC<Props> = ({
     };
   }, [open]);
 
+  useImperativeHandle(forwardedRef, () => ({
+    open: openPopup,
+    close: closePopup,
+    toggle: togglePopup,
+  }));
+
   const renderPopup = () => (
     <>
       <div
@@ -318,7 +331,7 @@ const Popup: FC<Props> = ({
         : renderPopup()}
     </>
   );
-};
+});
 
 export default Popup;
 export { PopupProvider };

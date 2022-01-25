@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Meta, Story } from '@storybook/react';
-import Popup, { Props } from '../src';
+import Popup, { PopupHandle, PopupProps } from '../src';
 import '../src/index.scss';
 
 const meta: Meta = {
@@ -11,7 +11,7 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<Props> = (args) => (
+const Template: Story<PopupProps> = (args) => (
   <div
     style={{
       height: '100vh',
@@ -77,4 +77,37 @@ NoArrow.args = {
 export const BigArrow = Template.bind({});
 BigArrow.args = {
   arrowSize: 20,
+};
+
+export const ForwardRef: Story = () => {
+  const popupRef = useRef<PopupHandle>(null);
+
+  const togglePopup = () => {
+    if (popupRef.current) {
+      popupRef.current.toggle();
+    }
+  };
+
+  return (
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Popup
+        toggler={(
+          <button type="button">Toggler</button>
+        )}
+        backdrop={false}
+        ref={popupRef}
+      >
+        <button type="button" data-close>Close</button>
+        <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, magnam?</div>
+      </Popup>
+      <button type="button" onClick={togglePopup}>Toggle popup with a ref</button>
+    </div>
+  );
 };
