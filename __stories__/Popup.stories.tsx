@@ -1,5 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useRef } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Meta, Story } from '@storybook/react';
 import Popup, { PopupHandle, PopupProps } from '../src';
 import '../src/index.scss';
@@ -51,7 +51,7 @@ PosRight.args = {
 
 export const Modal = Template.bind({});
 Modal.args = {
-  modal: true,
+  position: 'modal',
 };
 
 export const Hover = Template.bind({});
@@ -90,19 +90,12 @@ export const ForwardRef: Story = () => {
 
   return (
     <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
+      style={{ height: '100vh' }}
     >
       <Popup
-        toggler={(
-          <button type="button">Toggler</button>
-        )}
-        backdrop={false}
         ref={popupRef}
+        position="modal"
+        backdrop={false}
       >
         <button type="button" data-close>Close</button>
         <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, magnam?</div>

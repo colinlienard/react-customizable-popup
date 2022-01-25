@@ -22,11 +22,11 @@ export type PopupHandle = {
 
 export type PopupProps = {
   children: ReactNode,
-  toggler: ReactElement,
+  toggler?: ReactElement,
   position?: [
     'center' | 'left' | 'midleft' | 'right' | 'midright',
     'center' | 'top' | 'midtop' | 'bottom' | 'midbottom',
-  ],
+  ] | 'modal',
   toggleOn?: 'click' | 'hover',
   backdrop?: boolean,
   noScroll?: boolean,
@@ -41,7 +41,6 @@ export type PopupProps = {
   onOpen?: () => void,
   onClose?: () => void,
   portal?: boolean,
-  modal?: boolean,
 };
 
 const Popup = forwardRef<PopupHandle, PopupProps>(({
@@ -62,7 +61,6 @@ const Popup = forwardRef<PopupHandle, PopupProps>(({
   onOpen,
   onClose,
   portal = true,
-  modal = false,
 }, forwardedRef) => {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number, left: number, maxWidth: string | number }>({ top: 0, left: 0, maxWidth: 'auto' });
@@ -77,25 +75,25 @@ const Popup = forwardRef<PopupHandle, PopupProps>(({
   const { root: overallRoot } = useContext(Context);
 
   const getPosition = () => {
-    if (popupRef.current && togglerRef.current) {
-      const {
-        top: togglerTop,
-        left: togglerLeft,
-        width: togglerWidth,
-        height: togglerHeight,
-      } = togglerRef.current.getBoundingClientRect();
-
+    if (popupRef.current) {
       const popupWidth = popupRef.current.offsetWidth;
       const popupHeight = popupRef.current.offsetHeight;
 
-      if (modal) {
+      if (position === 'modal') {
         const top = window.innerHeight / 2 - popupHeight / 2;
         const left = window.innerWidth / 2 - popupWidth / 2;
 
         const maxWidth = popupWidth > window.innerWidth ? window.innerWidth - (distanceFromEdges * 2) : 'auto';
 
         setPos({ top, left, maxWidth });
-      } else {
+      } else if (togglerRef.current) {
+        const {
+          top: togglerTop,
+          left: togglerLeft,
+          width: togglerWidth,
+          height: togglerHeight,
+        } = togglerRef.current.getBoundingClientRect();
+
         let top = 0;
         let left = 0;
         let arrowTop = '';
@@ -279,13 +277,13 @@ const Popup = forwardRef<PopupHandle, PopupProps>(({
   const renderPopup = () => (
     <>
       <div
-        className={`cpopup ${className || 'default'} ${(fixed || modal) && 'fixed'} ${open && 'open'}`}
+        className={`cpopup ${className || 'default'} ${(fixed || (position === 'modal')) && 'fixed'} ${open && 'open'}`}
         ref={popupRef}
         style={pos}
         onMouseEnter={toggleOn === 'hover' ? () => setMouseOnPopup(true) : () => null}
         onMouseLeave={toggleOn === 'hover' ? handleMouseLeave : () => null}
       >
-        {arrow && !modal && (
+        {arrow && position !== 'modal' && (
           <div
             className={`cpopup-arrow ${position[0]} ${position[1]}`}
             style={{
@@ -310,7 +308,7 @@ const Popup = forwardRef<PopupHandle, PopupProps>(({
 
   return (
     <>
-      {cloneElement(
+      {toggler && cloneElement(
         toggler,
         toggleOn === 'click'
           ? {
@@ -323,12 +321,10 @@ const Popup = forwardRef<PopupHandle, PopupProps>(({
             ref: togglerRef,
           },
       )}
-      {portal
-        ? mounted && createPortal(
-          renderPopup(),
-          document.querySelector(overallRoot || root) as Element,
-        )
-        : renderPopup()}
+      {portal ? mounted && createPortal(
+        renderPopup(),
+        document.querySelector(overallRoot || root) as Element,
+      ) : renderPopup()}
     </>
   );
 });
