@@ -72,7 +72,7 @@ const Popup = forwardRef<PopupHandle, PopupProps>(({
   const togglerRef = useRef<HTMLElement>(null);
   const mouseOnPopup = useRef(false);
 
-  const { root: overallRoot } = useContext(Context);
+  const { globalRoot } = useContext(Context);
 
   const getPosition = () => {
     if (popupRef.current) {
@@ -323,7 +323,7 @@ const Popup = forwardRef<PopupHandle, PopupProps>(({
       )}
       {portal ? mounted && createPortal(
         renderPopup(),
-        document.querySelector(overallRoot || root) as Element,
+        document.querySelector(globalRoot || root) as Element,
       ) : renderPopup()}
     </>
   );
