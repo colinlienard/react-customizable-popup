@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "jsx": "react", 
     "module": "ESNext",
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "dist",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true
