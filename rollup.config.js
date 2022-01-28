@@ -15,7 +15,7 @@ export default [
       {
         file: packageJson.main,
         format: 'cjs',
-        exports: 'default',
+        exports: 'named',
         banner: '/* banner */',
         footer: '/* footer */',
       },
