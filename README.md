@@ -39,6 +39,7 @@ A simple and easy to use react library to create [fully customizable](#-document
   - [Styling](#styling)
     - [Applying styles](#applying-styles)
     - [Applying animations](#applying-animations)
+- 🔮 [Features that may be implemented in the future](#-features-that-may-be-implemented-in-the-future)
 - 📄 [License](#-license)
 
 ## ✨ Features
@@ -103,7 +104,7 @@ const App = () => {
 };
 ```
 
-If you test this code, you will see that your toggler is present. The popup is located at the [`root`](#root) of your application. When you click on your toggler, the popup will appear on top of all the other elements, along with an optional [`backdrop`](#backdrop) that allows you to close the popup by clicking on it.
+If you test this code, you will see that your toggler is present. The popup is located at the root of your application. When you click on your toggler, the popup will appear on top of all the other elements, along with an optional [`backdrop`](#backdrop) that allows you to close the popup by clicking on it.
 
 You can also add an element (like a cross for example) inside the popup to close it. To do this, add the attribute `data-close` to your element.
 
@@ -153,7 +154,7 @@ const App = () => {
 
 ⚠️ This is only necessary if the root of your application has an id different from `root`.
 
-As mentioned earlier, the popup is located at the root of your application. The root of the application often has an id equal to `root` (it is the case with [Create React App](https://create-react-app.dev/)), but not all the time. For example, if you are using [Nextjs](https://nextjs.org/), the root has a value of `__next`.
+As mentioned earlier, the popup is located at the root of your application. The root of the application often has an id of `root` (it is the case with [Create React App](https://create-react-app.dev/) and [Vite](https://vitejs.dev/) with React), but not all the time. For example, if you are using [Nextjs](https://nextjs.org/), the root id is `__next`.
 
 To specify the root, you can set the [`root`](#root) prop on each popup, but this is not ideal if you use many popups in your application. You can therefore set the root globally by using a context. In your `app.jsx` or `main.jsx`, add the `PopupProvider` around your app and set the root.
 
@@ -161,10 +162,10 @@ To specify the root, you can set the [`root`](#root) prop on each popup, but thi
 import { PopupProvider } from 'react-customizable-popup';
 
 ReactDOM.render(
-  <PopupProvider root="your-root-id">
+  <PopupProvider root="#your-root-id">
     <App />
   </PopupProvider>,
-  document.getElementById('your-root-id'), // It should be the same
+  document.getElementById('#your-root-id'), // It should be the same
 );
 ```
 
@@ -174,7 +175,7 @@ If you are using [Nextjs](https://nextjs.org/), you can do the following in your
 import { PopupProvider } from 'react-customizable-popup';
 
 const App = ({ Component, pageProps }) => (
-  <PopupProvider root="__next">
+  <PopupProvider root="#__next">
     <Component {...pageProps} />
   </PopupProvider>
 );
@@ -413,6 +414,10 @@ The animations are simply css transitions because **the popup is never removed f
 ```
 
 The [`backdrop`](#backdrop) animations work in the same way.
+
+## 🔮 Features that may be implemented in the future
+
+- Support for **CSS-in-JS**
 
 ## 📄 License
 
